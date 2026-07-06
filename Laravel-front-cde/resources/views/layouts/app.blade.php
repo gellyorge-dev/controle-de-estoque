@@ -81,6 +81,9 @@
                     <h1 class="text-lg font-semibold text-secondary">@yield('page-title', 'Dashboard')</h1>
                 </div>
                 <div class="flex items-center gap-2">
+                    <button onclick="logout()" class="px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                        Sair
+                    </button>
                     @yield('header-actions')
                 </div>
             </header>

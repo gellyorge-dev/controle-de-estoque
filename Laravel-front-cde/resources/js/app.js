@@ -1,17 +1,46 @@
 const API_URL = document.querySelector('meta[name="api-url"]')?.getAttribute('content') || 'http://localhost:8000/api';
 
+function getToken() {
+    return localStorage.getItem('auth_token');
+}
+
+function logout() {
+    localStorage.removeItem('auth_token');
+    window.location.href = '/login';
+}
+
+function checkAuth() {
+    const token = getToken();
+    const isLoginPage = window.location.pathname === '/login';
+    if (!token && !isLoginPage) {
+        window.location.href = '/login';
+    }
+}
+
 const api = {
     async request(url, options = {}) {
+        const token = getToken();
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...options.headers,
+        };
+
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
         const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                ...options.headers,
-            },
+            headers,
             ...options,
         };
 
         const response = await fetch(url, config);
+
+        if (response.status === 401) {
+            logout();
+            return;
+        }
 
         if (response.status === 204) return null;
         if (response.status === 422) {
@@ -30,6 +59,8 @@ const api = {
     put(endpoint, data) { return this.request(`${API_URL}${endpoint}`, { method: 'PUT', body: JSON.stringify(data) }); },
     delete(endpoint) { return this.request(`${API_URL}${endpoint}`, { method: 'DELETE' }); },
 };
+
+checkAuth();
 
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container') || (() => {
@@ -105,3 +136,5 @@ window.getFormData = getFormData;
 window.resetForm = resetForm;
 window.setFormData = setFormData;
 window.escapeHtml = escapeHtml;
+window.logout = logout;
+window.getToken = getToken;
