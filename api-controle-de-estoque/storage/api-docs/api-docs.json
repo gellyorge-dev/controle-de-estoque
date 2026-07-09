@@ -1,0 +1,2651 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Controle de Estoque",
+        "description": "API para controle de patrimônio e estoque",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/arquivos-imagem": {
+            "get": {
+                "tags": [
+                    "Arquivos de Imagem"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de arquivos de imagem",
+                "operationId": "arquivos-imagem.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de arquivos de imagem",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ArquivoImagem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Arquivos de Imagem"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo arquivo de imagem com os dados enviados",
+                "operationId": "arquivos-imagem.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArquivoImagem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArquivoImagem"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/arquivos-imagem/{id}": {
+            "get": {
+                "tags": [
+                    "Arquivos de Imagem"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um arquivo de imagem específico",
+                "operationId": "arquivos-imagem.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do arquivo de imagem",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArquivoImagem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Arquivos de Imagem"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um arquivo de imagem existente",
+                "operationId": "arquivos-imagem.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArquivoImagem"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArquivoImagem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Arquivos de Imagem"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um arquivo de imagem do sistema",
+                "operationId": "arquivos-imagem.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticar usuário",
+                "description": "Realiza o login e retorna um token de acesso",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Credenciais inválidas ou usuário inativo"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Sair do sistema",
+                "description": "Revoga o token de acesso atual",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Logout realizado com sucesso"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/me": {
+            "get": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Dados do usuário autenticado",
+                "description": "Retorna os dados do usuário atualmente autenticado",
+                "operationId": "me",
+                "responses": {
+                    "200": {
+                        "description": "Dados do usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsuarioSistema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/condicoes-operacionais": {
+            "get": {
+                "tags": [
+                    "Condições Operacionais"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de condições operacionais",
+                "operationId": "condicoes-operacionais.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de condições operacionais",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CondicaoOperacionalEquipamento"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Condições Operacionais"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo condição operacional com os dados enviados",
+                "operationId": "condicoes-operacionais.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CondicaoOperacionalEquipamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CondicaoOperacionalEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/condicoes-operacionais/{id}": {
+            "get": {
+                "tags": [
+                    "Condições Operacionais"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um condição operacional específico",
+                "operationId": "condicoes-operacionais.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do condição operacional",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CondicaoOperacionalEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Condições Operacionais"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um condição operacional existente",
+                "operationId": "condicoes-operacionais.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CondicaoOperacionalEquipamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CondicaoOperacionalEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Condições Operacionais"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um condição operacional do sistema",
+                "operationId": "condicoes-operacionais.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/equipamentos-patrimoniados": {
+            "get": {
+                "tags": [
+                    "Equipamentos Patrimoniados"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de equipamentos patrimoniados",
+                "operationId": "equipamentos-patrimoniados.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de equipamentos patrimoniados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/EquipamentoPatrimoniado"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Equipamentos Patrimoniados"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo equipamento patrimoniado com os dados enviados",
+                "operationId": "equipamentos-patrimoniados.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EquipamentoPatrimoniado"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EquipamentoPatrimoniado"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/equipamentos-patrimoniados/{id}": {
+            "get": {
+                "tags": [
+                    "Equipamentos Patrimoniados"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um equipamento patrimoniado específico",
+                "operationId": "equipamentos-patrimoniados.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do equipamento patrimoniado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EquipamentoPatrimoniado"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Equipamentos Patrimoniados"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um equipamento patrimoniado existente",
+                "operationId": "equipamentos-patrimoniados.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EquipamentoPatrimoniado"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EquipamentoPatrimoniado"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Equipamentos Patrimoniados"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um equipamento patrimoniado do sistema",
+                "operationId": "equipamentos-patrimoniados.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/espacos-armazenamento": {
+            "get": {
+                "tags": [
+                    "Espaços de Armazenamento"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de espaços de armazenamento",
+                "operationId": "espacos-armazenamento.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de espaços de armazenamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/EspacoArmazenamento"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Espaços de Armazenamento"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo espaço de armazenamento com os dados enviados",
+                "operationId": "espacos-armazenamento.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EspacoArmazenamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EspacoArmazenamento"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/espacos-armazenamento/{id}": {
+            "get": {
+                "tags": [
+                    "Espaços de Armazenamento"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um espaço de armazenamento específico",
+                "operationId": "espacos-armazenamento.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do espaço de armazenamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EspacoArmazenamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Espaços de Armazenamento"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um espaço de armazenamento existente",
+                "operationId": "espacos-armazenamento.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EspacoArmazenamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EspacoArmazenamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Espaços de Armazenamento"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um espaço de armazenamento do sistema",
+                "operationId": "espacos-armazenamento.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/itens-estoque": {
+            "get": {
+                "tags": [
+                    "Itens de Estoque"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de itens de estoque",
+                "operationId": "itens-estoque.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de itens de estoque",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ItemEstoque"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Itens de Estoque"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo item de estoque com os dados enviados",
+                "operationId": "itens-estoque.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ItemEstoque"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ItemEstoque"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/itens-estoque/{id}": {
+            "get": {
+                "tags": [
+                    "Itens de Estoque"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um item de estoque específico",
+                "operationId": "itens-estoque.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do item de estoque",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ItemEstoque"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Itens de Estoque"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um item de estoque existente",
+                "operationId": "itens-estoque.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ItemEstoque"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ItemEstoque"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Itens de Estoque"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um item de estoque do sistema",
+                "operationId": "itens-estoque.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/marcas-equipamento": {
+            "get": {
+                "tags": [
+                    "Marcas de Equipamento"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de marcas de equipamento",
+                "operationId": "marcas-equipamento.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de marcas de equipamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MarcaEquipamento"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Marcas de Equipamento"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo marca de equipamento com os dados enviados",
+                "operationId": "marcas-equipamento.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MarcaEquipamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarcaEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/marcas-equipamento/{id}": {
+            "get": {
+                "tags": [
+                    "Marcas de Equipamento"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um marca de equipamento específico",
+                "operationId": "marcas-equipamento.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do marca de equipamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarcaEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Marcas de Equipamento"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um marca de equipamento existente",
+                "operationId": "marcas-equipamento.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MarcaEquipamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarcaEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Marcas de Equipamento"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um marca de equipamento do sistema",
+                "operationId": "marcas-equipamento.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/perfis-usuario": {
+            "get": {
+                "tags": [
+                    "Perfis de Usuário"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de perfis de usuário",
+                "operationId": "perfis-usuario.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de perfis de usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PerfilUsuario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Perfis de Usuário"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo perfil de usuário com os dados enviados",
+                "operationId": "perfis-usuario.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PerfilUsuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerfilUsuario"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/perfis-usuario/{id}": {
+            "get": {
+                "tags": [
+                    "Perfis de Usuário"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um perfil de usuário específico",
+                "operationId": "perfis-usuario.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do perfil de usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerfilUsuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Perfis de Usuário"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um perfil de usuário existente",
+                "operationId": "perfis-usuario.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PerfilUsuario"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerfilUsuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Perfis de Usuário"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um perfil de usuário do sistema",
+                "operationId": "perfis-usuario.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/registros-auditoria": {
+            "get": {
+                "tags": [
+                    "Registros de Auditoria"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de registros de auditoria",
+                "operationId": "registros-auditoria.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de registros de auditoria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RegistroAuditoria"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Registros de Auditoria"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo registro de auditoria com os dados enviados",
+                "operationId": "registros-auditoria.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistroAuditoria"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistroAuditoria"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/registros-auditoria/{id}": {
+            "get": {
+                "tags": [
+                    "Registros de Auditoria"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um registro de auditoria específico",
+                "operationId": "registros-auditoria.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do registro de auditoria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistroAuditoria"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Registros de Auditoria"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um registro de auditoria existente",
+                "operationId": "registros-auditoria.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistroAuditoria"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistroAuditoria"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Registros de Auditoria"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um registro de auditoria do sistema",
+                "operationId": "registros-auditoria.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tipos-equipamento": {
+            "get": {
+                "tags": [
+                    "Tipos de Equipamento"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de tipos de equipamento",
+                "operationId": "tipos-equipamento.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de tipos de equipamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TipoEquipamento"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tipos de Equipamento"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo tipo de equipamento com os dados enviados",
+                "operationId": "tipos-equipamento.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TipoEquipamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TipoEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tipos-equipamento/{id}": {
+            "get": {
+                "tags": [
+                    "Tipos de Equipamento"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um tipo de equipamento específico",
+                "operationId": "tipos-equipamento.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do tipo de equipamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TipoEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tipos de Equipamento"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um tipo de equipamento existente",
+                "operationId": "tipos-equipamento.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TipoEquipamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TipoEquipamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tipos de Equipamento"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um tipo de equipamento do sistema",
+                "operationId": "tipos-equipamento.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/unidades-organizacionais": {
+            "get": {
+                "tags": [
+                    "Unidades Organizacionais"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de unidades organizacionais",
+                "operationId": "unidades-organizacionais.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de unidades organizacionais",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UnidadeOrganizacional"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Unidades Organizacionais"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo unidade organizacional com os dados enviados",
+                "operationId": "unidades-organizacionais.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnidadeOrganizacional"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnidadeOrganizacional"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/unidades-organizacionais/{id}": {
+            "get": {
+                "tags": [
+                    "Unidades Organizacionais"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um unidade organizacional específico",
+                "operationId": "unidades-organizacionais.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do unidade organizacional",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnidadeOrganizacional"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Unidades Organizacionais"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um unidade organizacional existente",
+                "operationId": "unidades-organizacionais.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnidadeOrganizacional"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnidadeOrganizacional"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Unidades Organizacionais"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um unidade organizacional do sistema",
+                "operationId": "unidades-organizacionais.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/usuarios-sistema": {
+            "get": {
+                "tags": [
+                    "Usuários do Sistema"
+                ],
+                "summary": "Listar todos os registros",
+                "description": "Retorna uma lista paginada de usuários do sistema",
+                "operationId": "usuarios-sistema.index",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuários do sistema",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UsuarioSistema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Usuários do Sistema"
+                ],
+                "summary": "Criar novo registro",
+                "description": "Cria um novo usuário do sistema com os dados enviados",
+                "operationId": "usuarios-sistema.store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UsuarioSistema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsuarioSistema"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/usuarios-sistema/{id}": {
+            "get": {
+                "tags": [
+                    "Usuários do Sistema"
+                ],
+                "summary": "Exibir registro",
+                "description": "Retorna os dados de um usuário do sistema específico",
+                "operationId": "usuarios-sistema.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do usuário do sistema",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsuarioSistema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Usuários do Sistema"
+                ],
+                "summary": "Atualizar registro",
+                "description": "Atualiza os dados de um usuário do sistema existente",
+                "operationId": "usuarios-sistema.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UsuarioSistema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registro atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsuarioSistema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Usuários do Sistema"
+                ],
+                "summary": "Excluir registro",
+                "description": "Remove um usuário do sistema do sistema",
+                "operationId": "usuarios-sistema.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Registro excluído"
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequest": {
+                "description": "Credenciais de login",
+                "properties": {
+                    "login_usuario": {
+                        "description": "Login do usuário",
+                        "type": "string"
+                    },
+                    "senha_usuario": {
+                        "description": "Senha do usuário",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponse": {
+                "description": "Resposta do login",
+                "properties": {
+                    "usuario": {
+                        "$ref": "#/components/schemas/UsuarioSistema"
+                    },
+                    "token": {
+                        "description": "Token de autenticação",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UnidadeOrganizacional": {
+                "description": "Unidade organizacional",
+                "properties": {
+                    "id": {
+                        "description": "ID da unidade",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome da unidade",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "EspacoArmazenamento": {
+                "description": "Espaço de armazenamento",
+                "properties": {
+                    "id": {
+                        "description": "ID do espaço",
+                        "type": "integer"
+                    },
+                    "unidade_organizacional_id": {
+                        "description": "ID da unidade organizacional",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome do espaço",
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "description": "Descrição do espaço",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "MarcaEquipamento": {
+                "description": "Marca de equipamento",
+                "properties": {
+                    "id": {
+                        "description": "ID da marca",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome da marca",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TipoEquipamento": {
+                "description": "Tipo de equipamento",
+                "properties": {
+                    "id": {
+                        "description": "ID do tipo",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome do tipo",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CondicaoOperacionalEquipamento": {
+                "description": "Condição operacional de equipamento",
+                "properties": {
+                    "id": {
+                        "description": "ID da condição",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome da condição",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PerfilUsuario": {
+                "description": "Perfil de usuário",
+                "properties": {
+                    "id": {
+                        "description": "ID do perfil",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome do perfil",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ArquivoImagem": {
+                "description": "Arquivo de imagem",
+                "properties": {
+                    "id": {
+                        "description": "ID do arquivo",
+                        "type": "integer"
+                    },
+                    "nome_arquivo": {
+                        "description": "Nome original do arquivo",
+                        "type": "string"
+                    },
+                    "caminho": {
+                        "description": "Caminho de armazenamento",
+                        "type": "string"
+                    },
+                    "mime_type": {
+                        "description": "Tipo MIME do arquivo",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "tamanho": {
+                        "description": "Tamanho do arquivo em bytes",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "hash": {
+                        "description": "Hash SHA-256 do arquivo",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de upload",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UsuarioSistema": {
+                "description": "Usuário do sistema",
+                "properties": {
+                    "id": {
+                        "description": "ID do usuário",
+                        "type": "integer"
+                    },
+                    "perfil_usuario_id": {
+                        "description": "ID do perfil de usuário",
+                        "type": "integer"
+                    },
+                    "arquivo_imagem_id": {
+                        "description": "ID da imagem do perfil",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "nome_usuario": {
+                        "description": "Nome completo do usuário",
+                        "type": "string"
+                    },
+                    "login_usuario": {
+                        "description": "Login de acesso",
+                        "type": "string"
+                    },
+                    "ativo": {
+                        "description": "Indica se o usuário está ativo",
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "EquipamentoPatrimoniado": {
+                "description": "Equipamento patrimoniado",
+                "properties": {
+                    "id": {
+                        "description": "ID do equipamento",
+                        "type": "integer"
+                    },
+                    "numero_patrimonio": {
+                        "description": "Número do patrimônio",
+                        "type": "integer"
+                    },
+                    "numero_serie": {
+                        "description": "Número de série",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "espaco_armazenamento_id": {
+                        "description": "ID do espaço de armazenamento",
+                        "type": "integer"
+                    },
+                    "marca_equipamento_id": {
+                        "description": "ID da marca",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "tipo_equipamento_id": {
+                        "description": "ID do tipo de equipamento",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "condicao_operacional_equipamento_id": {
+                        "description": "ID da condição operacional",
+                        "type": "integer"
+                    },
+                    "arquivo_imagem_id": {
+                        "description": "ID da imagem do equipamento",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "nome_equipamento": {
+                        "description": "Nome do equipamento",
+                        "type": "string"
+                    },
+                    "descricao_equipamento": {
+                        "description": "Descrição do equipamento",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "informado_ao_patrimonio": {
+                        "description": "Informado ao setor de patrimônio",
+                        "type": "boolean"
+                    },
+                    "local_anterior": {
+                        "description": "Local anterior do equipamento",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "destino": {
+                        "description": "Destino do equipamento",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "observacoes_equipamento": {
+                        "description": "Observações",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ItemEstoque": {
+                "description": "Item de estoque",
+                "properties": {
+                    "id": {
+                        "description": "ID do item",
+                        "type": "integer"
+                    },
+                    "espaco_armazenamento_id": {
+                        "description": "ID do espaço de armazenamento",
+                        "type": "integer"
+                    },
+                    "arquivo_imagem_id": {
+                        "description": "ID da imagem do item",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "nome_item": {
+                        "description": "Nome do item",
+                        "type": "string"
+                    },
+                    "descricao_item": {
+                        "description": "Descrição do item",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "quantidade": {
+                        "description": "Quantidade em estoque",
+                        "type": "integer"
+                    },
+                    "observacoes_item": {
+                        "description": "Observações",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "RegistroAuditoria": {
+                "description": "Registro de auditoria",
+                "properties": {
+                    "id": {
+                        "description": "ID do registro",
+                        "type": "integer"
+                    },
+                    "usuario_sistema_id": {
+                        "description": "ID do usuário que realizou a ação",
+                        "type": "integer"
+                    },
+                    "nome_tabela": {
+                        "description": "Nome da tabela alterada",
+                        "type": "string"
+                    },
+                    "identificador_registro": {
+                        "description": "ID do registro alterado",
+                        "type": "integer"
+                    },
+                    "tipo_acao": {
+                        "description": "Tipo de ação (create/update/delete)",
+                        "type": "string"
+                    },
+                    "valor_anterior": {
+                        "description": "Valor anterior (JSON)",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "valor_novo": {
+                        "description": "Valor novo (JSON)",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "observacao": {
+                        "description": "Observação",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data do registro",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Token de autenticação (Sanctum)",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Endpoints de autenticação"
+        },
+        {
+            "name": "Unidades Organizacionais",
+            "description": "CRUD de unidades organizacionais"
+        },
+        {
+            "name": "Espaços de Armazenamento",
+            "description": "CRUD de espaços de armazenamento"
+        },
+        {
+            "name": "Marcas de Equipamento",
+            "description": "CRUD de marcas de equipamento"
+        },
+        {
+            "name": "Tipos de Equipamento",
+            "description": "CRUD de tipos de equipamento"
+        },
+        {
+            "name": "Condições Operacionais",
+            "description": "CRUD de condições operacionais de equipamento"
+        },
+        {
+            "name": "Perfis de Usuário",
+            "description": "CRUD de perfis de usuário"
+        },
+        {
+            "name": "Arquivos de Imagem",
+            "description": "CRUD de arquivos de imagem"
+        },
+        {
+            "name": "Usuários do Sistema",
+            "description": "CRUD de usuários do sistema"
+        },
+        {
+            "name": "Equipamentos Patrimoniados",
+            "description": "CRUD de equipamentos patrimoniados"
+        },
+        {
+            "name": "Itens de Estoque",
+            "description": "CRUD de itens de estoque"
+        },
+        {
+            "name": "Registros de Auditoria",
+            "description": "Consulta de registros de auditoria"
+        }
+    ]
+}

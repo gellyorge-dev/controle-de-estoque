@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateItemEstoqueRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'espaco_armazenamento_id' => ['required', 'exists:espaco_armazenamento,id'],
+            'arquivo_imagem_id' => ['nullable', 'exists:arquivo_imagem,id'],
+            'nome_item' => ['required', 'string', 'max:150'],
+            'descricao_item' => ['nullable', 'string'],
+            'quantidade' => ['required', 'integer', 'min:0'],
+            'observacoes_item' => ['nullable', 'string'],
+        ];
+    }
+}

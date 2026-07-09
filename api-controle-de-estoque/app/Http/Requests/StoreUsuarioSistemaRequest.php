@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreUsuarioSistemaRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'perfil_usuario_id' => ['required', 'exists:perfil_usuario,id'],
+            'arquivo_imagem_id' => ['nullable', 'exists:arquivo_imagem,id'],
+            'nome_usuario' => ['required', 'string', 'max:150'],
+            'login_usuario' => ['required', 'string', 'max:100', 'unique:usuario_sistema,login_usuario'],
+            'senha_usuario' => ['required', 'string', 'max:255'],
+            'ativo' => ['boolean'],
+        ];
+    }
+}
