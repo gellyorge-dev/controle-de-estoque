@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfis de Usuário — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link active" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">
+        <a href="/usuarios-sistema" class="crumb-dim" style="text-decoration:none;">Usuários do Sistema</a>
+        <span class="crumb-sep">/</span>Perfis
+      </div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Perfis de Usuário</h1>
+          <p>Subordinada a Usuários do Sistema</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-perfil')">+ Novo Perfil</button>
+      </div>
+
+      <nav class="subnav">
+        <a class="subnav-btn" href="/usuarios-sistema">Usuários</a>
+        <a class="subnav-btn active" href="/usuarios-sistema/perfis">Perfis de Usuário</a>
+      </nav>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar perfil…" oninput="filterTable(this, 'tbody-perfis')">
+          <span class="form-hint">3 perfis</span>
+        </div>
+        <table>
+          <thead><tr><th>ID</th><th>Nome do perfil</th><th>Usuários vinculados</th><th></th></tr></thead>
+          <tbody id="tbody-perfis">
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#1</td><td class="cell-primary" data-label="Nome do perfil">Administrador</td><td class="cell-sub" data-label="Usuários vinculados">1 usuário(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-perfil')">Editar</button></td></tr>
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#2</td><td class="cell-primary" data-label="Nome do perfil">Operador de Estoque</td><td class="cell-sub" data-label="Usuários vinculados">1 usuário(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-perfil')">Editar</button></td></tr>
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#3</td><td class="cell-primary" data-label="Nome do perfil">Consulta</td><td class="cell-sub" data-label="Usuários vinculados">1 usuário(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-perfil')">Editar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-perfil">
+  <div class="modal" style="max-width: 440px;">
+    <div class="modal-head">
+      <div>
+        <h2>Novo Perfil</h2>
+        <p>Campos correspondentes ao schema de <code>/perfis-usuario</code> (parcial)</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-perfil')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-perfil">
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label>Nome do perfil <span class="req">*</span></label>
+            <input type="text" name="nome" required placeholder="Ex: Administrador">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-perfil')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-perfil">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

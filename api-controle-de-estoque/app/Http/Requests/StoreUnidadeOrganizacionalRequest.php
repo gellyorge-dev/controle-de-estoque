@@ -14,7 +14,7 @@ class StoreUnidadeOrganizacionalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:150', 'unique:unidade_organizacional,nome'],
+            'nome' => ['required', 'string', 'max:150', 'unique:unidade_org,nome'],
         ];
     }
 }

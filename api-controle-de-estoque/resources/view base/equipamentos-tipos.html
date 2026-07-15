@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tipos de Equipamento — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link active" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">
+        <a href="/equipamentos-patrimoniados" class="crumb-dim" style="text-decoration:none;">Equipamentos Patrimoniados</a>
+        <span class="crumb-sep">/</span>Tipos
+      </div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Tipos de Equipamento</h1>
+          <p>Subordinada a Equipamentos Patrimoniados — não aparece no menu principal.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-tipo')">+ Novo Tipo</button>
+      </div>
+
+      <nav class="subnav">
+        <a class="subnav-btn" href="/equipamentos-patrimoniados">Equipamentos</a>
+        <a class="subnav-btn" href="/equipamentos/marcas">Marcas</a>
+        <a class="subnav-btn active" href="/equipamentos/tipos">Tipos</a>
+        <a class="subnav-btn" href="/equipamentos/condicoes">Condições Operacionais</a>
+        <a class="subnav-btn" href="/equipamentos/imagens">Arquivos de Imagem</a>
+      </nav>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar tipo…" oninput="filterTable(this, 'tbody-tipos')">
+          <span class="form-hint">4 tipos</span>
+        </div>
+        <table>
+          <thead><tr><th>ID</th><th>Nome</th><th>Equipamentos vinculados</th><th></th></tr></thead>
+          <tbody id="tbody-tipos">
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#1</td><td class="cell-primary" data-label="Nome">Notebook</td><td class="cell-sub" data-label="Equipamentos vinculados">1 equipamento(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-tipo')">Editar</button></td></tr>
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#2</td><td class="cell-primary" data-label="Nome">Monitor</td><td class="cell-sub" data-label="Equipamentos vinculados">1 equipamento(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-tipo')">Editar</button></td></tr>
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#3</td><td class="cell-primary" data-label="Nome">Impressora</td><td class="cell-sub" data-label="Equipamentos vinculados">1 equipamento(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-tipo')">Editar</button></td></tr>
+            <tr><td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#4</td><td class="cell-primary" data-label="Nome">Nobreak</td><td class="cell-sub" data-label="Equipamentos vinculados">0 equipamento(s)</td><td class="cell-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('modal-tipo')">Editar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-tipo">
+  <div class="modal" style="max-width: 440px;">
+    <div class="modal-head">
+      <div>
+        <h2>Novo Tipo</h2>
+        <p>Campos correspondentes ao schema de <code>/tipos-equipamento</code></p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-tipo')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-tipo">
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label>Nome <span class="req">*</span></label>
+            <input type="text" name="nome" required placeholder="Ex: Notebook">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-tipo')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-tipo">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

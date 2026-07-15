@@ -15,13 +15,13 @@ class UpdateEquipamentoPatrimoniadoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero_patrimonio' => ['required', 'integer', Rule::unique('equipamento_patrimoniado', 'numero_patrimonio')->ignore($this->route('equipamentos_patrimoniado'))],
+            'numero_patrimonio' => ['required', 'integer', Rule::unique('equip_patrim', 'numero_patrimonio')->ignore($this->route('id'))],
             'numero_serie' => ['nullable', 'string', 'max:150'],
-            'espaco_armazenamento_id' => ['required', 'exists:espaco_armazenamento,id'],
-            'marca_equipamento_id' => ['nullable', 'exists:marca_equipamento,id'],
-            'tipo_equipamento_id' => ['nullable', 'exists:tipo_equipamento,id'],
-            'condicao_operacional_equipamento_id' => ['required', 'exists:condicao_operacional_equipamento,id'],
-            'arquivo_imagem_id' => ['nullable', 'exists:arquivo_imagem,id'],
+            'espaco_armazenamento_id' => ['required', 'exists:espaco_arm,id'],
+            'marca_equipamento_id' => ['nullable', 'exists:marca_eqp,id'],
+            'tipo_equipamento_id' => ['nullable', 'exists:tipo_eqp,id'],
+            'condicao_operacional_equipamento_id' => ['required', 'exists:cond_eqp,id'],
+            'arquivo_imagem_id' => ['nullable', 'exists:arquivo_img,id'],
             'nome_equipamento' => ['required', 'string', 'max:150'],
             'descricao_equipamento' => ['nullable', 'string'],
             'informado_ao_patrimonio' => ['boolean'],

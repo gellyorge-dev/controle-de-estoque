@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class EquipamentoPatrimoniado extends Model
 {
-    protected $table = 'equipamento_patrimoniado';
+    protected $table = 'equip_patrim';
 
     protected function casts(): array
     {

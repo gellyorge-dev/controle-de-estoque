@@ -15,7 +15,7 @@ class UpdateTipoEquipamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:100', Rule::unique('tipo_equipamento', 'nome')->ignore($this->route('tipos_equipamento'))],
+            'nome' => ['required', 'string', 'max:100', Rule::unique('tipo_eqp', 'nome')->ignore($this->route('id'))],
         ];
     }
 }

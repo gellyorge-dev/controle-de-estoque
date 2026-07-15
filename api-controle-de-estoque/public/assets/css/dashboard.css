@@ -1,0 +1,195 @@
+/* ============================================================
+   DASHBOARD.CSS
+   ============================================================ */
+
+.app-shell{
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.main-col{
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Topbar ---------- */
+.topbar{
+  height: var(--topbar-h);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.topbar-back{
+  font-size:18px;
+  color:var(--ink-faint);
+  text-decoration:none;
+  transition:color var(--transition);
+  line-height:1;
+}
+.topbar-back:hover{ color:var(--accent-2); }
+
+.topbar-user{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.topbar-user::before{
+  content: "";
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  display: inline-block;
+  background-image: linear-gradient(135deg, var(--accent-2), var(--accent));
+}
+
+/* ---------- Conteúdo ---------- */
+.content{
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.page-head{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-head h1{
+  margin-bottom: 4px;
+}
+
+.page-head p{
+  max-width: 520px;
+}
+
+/* ---------- Grid de entidades (tela inicial) ---------- */
+.card-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.entity-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.entity-card:hover{
+  border-color: var(--accent-2);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.entity-card .icon-dot{
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.entity-card h3{
+  margin: 0;
+}
+
+.entity-card p{
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* ---------- Dashboard stat boxes ---------- */
+.dashboard-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.stat-box{
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+.stat-label{
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.stat-value{
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 900px){
+  .content{
+    padding: 14px;
+  }
+}
+
+@media (max-width: 640px){
+  .dashboard-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .stat-box{
+    padding: 14px;
+  }
+
+  .stat-value{
+    font-size: 1.5rem;
+  }
+}

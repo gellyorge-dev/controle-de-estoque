@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['nome'])]
 class MarcaEquipamento extends Model
 {
-    protected $table = 'marca_equipamento';
+    protected $table = 'marca_eqp';
 
     public $timestamps = false;
 

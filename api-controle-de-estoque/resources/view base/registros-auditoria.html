@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registros de Auditória — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link active" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Registros de Auditória</div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+    <div class="page-head">
+        <div>
+            <h1>Registros de Auditoria</h1>
+            <p>Histórico de alterações realizadas no sistema.</p>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-toolbar">
+            <input class="search-input"
+                   placeholder="Buscar registro..."
+                   oninput="filterTable(this, 'tbody-auditoria')">
+
+            <span class="form-hint" id="total-registros"></span>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Tabela</th>
+                    <th>Registro</th>
+                    <th>Ação</th>
+                    <th>Valor Anterior</th>
+                    <th>Valor Novo</th>
+                    <th>Observação</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+
+            <tbody id="tbody-auditoria">
+                <tr>
+                    <td colspan="9" class="cell-sub" style="text-align:center; padding:28px;" data-label="ID">Nenhum registro de auditoria encontrado.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

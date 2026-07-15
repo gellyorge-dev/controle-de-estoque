@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipamentos Patrimoniados — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link active" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Equipamentos Patrimoniados</div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Equipamentos Patrimoniados</h1>
+          <p>Cadastro, edição e baixa de equipamentos com número de patrimônio.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-equipamento')">+ Novo Equipamento</button>
+      </div>
+
+      <nav class="subnav">
+        <a class="subnav-btn active" href="/equipamentos-patrimoniados">Equipamentos</a>
+        <a class="subnav-btn" href="/equipamentos/marcas">Marcas</a>
+        <a class="subnav-btn" href="/equipamentos/tipos">Tipos</a>
+        <a class="subnav-btn" href="/equipamentos/condicoes">Condições Operacionais</a>
+        <a class="subnav-btn" href="/equipamentos/imagens">Arquivos de Imagem</a>
+      </nav>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar por nome, patrimônio ou série…"
+                 oninput="filterTable(this, 'tbody-equipamentos')">
+          <span class="form-hint">3 equipamentos</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Patrimônio</th>
+              <th>Equipamento</th>
+              <th>Marca / Tipo</th>
+              <th>Condição</th>
+              <th>Localização</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-equipamentos">
+            <tr>
+              <td data-label="Patrimônio"><span class="asset-tag">#100234</span></td>
+              <td data-label="Equipamento">
+                <div class="cell-primary">Desktop Dell</div>
+                <div class="cell-sub">0000000</div>
+              </td>
+              <td data-label="Marca / Tipo">
+                <a class="ref-chip" href="/equipamentos/marcas">Dell</a>
+                <div class="cell-sub">Notebook</div>
+              </td>
+              <td data-label="Condição"><span class="badge badge-ok">Em uso</span></td>
+              <td data-label="Localização">Armário 4</td>
+              <td data-label="Status"><span class="badge badge-ok">Informado</span></td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-equipamento')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Patrimônio"><span class="asset-tag">#100235</span></td>
+              <td data-label="Equipamento">
+                <div class="cell-primary">Monitor dell</div>
+                <div class="cell-sub">0000000</div>
+              </td>
+              <td data-label="Marca / Tipo">
+                <a class="ref-chip" href="/equipamentos/marcas">HP</a>
+                <div class="cell-sub">Monitor</div>
+              </td>
+              <td data-label="Condição"><span class="badge badge-warn">Em manutenção</span></td>
+              <td data-label="Localização">Armário 1</td>
+              <td data-label="Status"><span class="badge badge-ok">Informado</span></td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-equipamento')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Patrimônio"><span class="asset-tag">#100241</span></td>
+              <td data-label="Equipamento">
+                <div class="cell-primary">Monitor Samsung</div>
+                <div class="cell-sub">0000000</div>
+              </td>
+              <td data-label="Marca / Tipo">
+                <a class="ref-chip" href="/equipamentos/marcas">Samsung</a>
+                <div class="cell-sub">Monitor</div>
+              </td>
+              <td data-label="Condição"><span class="badge badge-ok">Em uso</span></td>
+              <td data-label="Localização">Armário 6</td>
+              <td data-label="Status"><span class="badge badge-warn">Ativo</span></td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-equipamento')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-equipamento">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Novo Equipamento</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-equipamento')">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="form-equipamento">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Nome do equipamento <span class="req">*</span></label>
+            <input type="text" name="nome_equipamento" required placeholder="Ex: Monitor Dell">
+          </div>
+          <div class="form-field">
+            <label>Nº de patrimônio <span class="req">*</span></label>
+            <input type="number" name="numero_patrimonio" required placeholder="Ex: 030278">
+          </div>
+
+          <div class="form-field">
+            <label>Nº de série</label>
+            <input type="text" name="numero_serie" placeholder="Ex: 0000000">
+          </div>
+          <div class="form-field">
+            <label>Marca <span class="req">*</span></label>
+            <select name="marca_equipamento_id" required>
+              <option value="">Selecione a marca</option>
+              <option value="1">Dell</option>
+              <option value="2">Lenovo</option>
+              <option value="3">HP</option>
+              <option value="4">Samsung</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Tipo de equipamento <span class="req">*</span></label>
+            <select name="tipo_equipamento_id" required>
+              <option value="">Selecione o tipo</option>
+              <option value="1">Notebook</option>
+              <option value="2">Monitor</option>
+              <option value="3">Cpu</option>
+              <option value="4">Nobreak</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Condição operacional <span class="req">*</span></label>
+            <select name="condicao_operacional_equipamento_id" required>
+              <option value="">Selecione a condição</option>
+              <option value="1">Em uso</option>
+              <option value="2">Em manutenção</option>
+              <option value="3">Baixado</option>
+              <option value="4">Reserva técnica</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Espaço de armazenamento <span class="req">*</span></label>
+            <select name="espaco_armazenamento_id" required>
+              <option value="">Selecione o espaço</option>
+              <option value="1">Armário 1</option>
+              <option value="2">Armário 4</option>
+              <option value="3">Armário 6</option>
+              <option value="4">Depósito</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Arquivo de imagem</label>
+            <select name="arquivo_imagem_id">
+              <option value="">Nenhuma</option>
+              <option value="1">notebook-dell-01.jpg</option>
+              <option value="2">monitor-lg-01.jpg</option>
+            </select>
+          </div>
+
+          <div class="form-field span-2">
+            <label>Descrição do equipamento</label>
+            <textarea name="descricao_equipamento" placeholder="Especificações, observações gerais do item…"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label>Local anterior</label>
+            <input type="text" name="local_anterior" placeholder="Ex: Depósito">
+          </div>
+          <div class="form-field">
+            <label>Destino</label>
+            <input type="text" name="destino" placeholder="Ex: Armário 1">
+          </div>
+
+          <div class="form-field span-2">
+            <label>Observações</label>
+            <textarea name="observacoes_equipamento" placeholder="Observações adicionais sobre movimentação, estado, etc."></textarea>
+          </div>
+
+          <div class="form-field span-2 checkbox-field">
+            <input type="checkbox" id="informado_ao_patrimonio" name="informado_ao_patrimonio">
+            <label for="informado_ao_patrimonio">Informado ao setor de patrimônio</label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-equipamento')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-equipamento">Salvar equipamento</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

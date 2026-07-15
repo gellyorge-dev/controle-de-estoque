@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['nome'])]
 class UnidadeOrganizacional extends Model
 {
-    protected $table = 'unidade_organizacional';
+    protected $table = 'unidade_org';
 
     public function espacoArmazenamento(): HasMany
     {

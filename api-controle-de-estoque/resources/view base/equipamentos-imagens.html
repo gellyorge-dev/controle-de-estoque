@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquivos de Imagem — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+   <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link active" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">
+        <a href="/equipamentos-patrimoniados" class="crumb-dim" style="text-decoration:none;">Equipamentos Patrimoniados</a>
+        <span class="crumb-sep">/</span>Arquivos de Imagem
+      </div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Arquivos de Imagem</h1>
+          <p>Subordinada a Equipamentos Patrimoniados — não aparece no menu principal.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-imagem')">+ Enviar Imagem</button>
+      </div>
+
+      <nav class="subnav">
+        <a class="subnav-btn" href="/equipamentos-patrimoniados">Equipamentos</a>
+        <a class="subnav-btn" href="/equipamentos/marcas">Marcas</a>
+        <a class="subnav-btn" href="/equipamentos/tipos">Tipos</a>
+        <a class="subnav-btn" href="/equipamentos/condicoes">Condições Operacionais</a>
+        <a class="subnav-btn active" href="/equipamentos/imagens">Arquivos de Imagem</a>
+      </nav>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar arquivo…" oninput="filterTable(this, 'tbody-imagens')">
+          <span class="form-hint">2 arquivos</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Arquivo</th>
+              <th>Tipo</th>
+              <th>Tamanho</th>
+              <th>Equipamento vinculado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-imagens">
+    
+            <tr>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#1</td>
+
+    <td data-label="Arquivo">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img
+        src="/uploads/equipamentos/notebook-dell-01.jpg"
+        alt="Notebook Dell"
+        style="
+          width:70px;
+          height:70px;
+          object-fit:cover;
+          border-radius:8px;
+          border:1px solid #ddd;
+        "
+      >
+
+      <div>
+        <div class="cell-primary">notebook-dell-01.jpg</div>
+        <div class="cell-sub" style="font-family: var(--font-mono);">
+          /uploads/equipamentos/notebook-dell-01.jpg
+        </div>
+      </div>
+    </div>
+  </td>
+
+  <td class="cell-sub" style="font-family: var(--font-mono);" data-label="Tipo">image/jpeg</td>
+  <td class="cell-sub" data-label="Tamanho">184 KB</td>
+  <td class="cell-sub" data-label="Equipamento vinculado">Notebook Dell</td>
+  <td></td>
+</tr>
+
+<tr>
+  <td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#2</td>
+
+    <td data-label="Arquivo">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img
+        src="/uploads/equipamentos/monitor-lg-02.jpg"
+        alt="Monitor LG"
+        style="
+          width:70px;
+          height:70px;
+          object-fit:cover;
+          border-radius:8px;
+          border:1px solid #ddd;">
+      <div>
+        <div class="cell-primary">monitor-lg-02.jpg</div>
+        <div class="cell-sub" style="font-family: var(--font-mono);">
+          /uploads/equipamentos/monitor-lg-02.jpg
+        </div>
+      </div>
+    </div>
+  </td>
+  
+  <td class="cell-sub" style="font-family: var(--font-mono);" data-label="Tipo">image/jpeg</td>
+  <td class="cell-sub" data-label="Tamanho">211 KB</td>
+  <td class="cell-sub" data-label="Equipamento vinculado">Monitor LG</td>
+  <td></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</main>
+</div>
+</div>
+
+<div class="modal-overlay" id="modal-imagem">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Enviar Arquivo de Imagem</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-imagem')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-imagem">
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label>Arquivo <span class="req">*</span></label>
+            <input type="file" name="arquivo" accept="image/*" required>
+            <span class="form-hint">Envio do arquivo em si — nome, caminho, tipo MIME, tamanho e hash normalmente são preenchidos pelo backend a partir do upload.</span>
+          </div>
+          <div class="form-field span-2">
+            <label>Nome do arquivo</label>
+            <input type="text" name="nome_arquivo" placeholder="Ex: notebook-dell-01.jpg">
+          </div>
+          <div class="form-field span-2">
+            <label>Caminho</label>
+            <input type="text" name="caminho" placeholder="Ex: /uploads/equipamentos/notebook-dell-01.jpg">
+          </div>
+          <div class="form-field">
+            <label>Tipo MIME</label>
+            <input type="text" name="mime_type" placeholder="Ex: image/jpeg">
+          </div>
+          <div class="form-field">
+            <label>Tamanho (bytes)</label>
+            <input type="number" name="tamanho" placeholder="Ex: 188416">
+          </div>
+        </div>
+
+        <div class="field-meta-row" style="display:flex;">
+          <span>hash: <span>gerado pelo backend</span></span>
+          <span>criado em: <span>gerado pelo backend</span></span>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-imagem')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-imagem">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil do Usuário — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Perfil do Usuário</div>
+      <div class="topbar-user" style="cursor:default;">
+        <span>Administrador</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Meu Perfil</h1>
+          <p>Dados da sua conta de acesso ao painel.</p>
+        </div>
+      </div>
+
+      <div class="table-card" style="padding:24px;">
+        <div style="display:flex; align-items:center; gap:16px; padding-bottom:20px; border-bottom:1px solid var(--border); margin-bottom:20px;">
+          <div style="width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg, var(--accent-2), var(--accent)); flex-shrink:0;"></div>
+          <div>
+            <div class="cell-primary" style="font-size:15px;">Administrador</div>
+            <div class="cell-sub">Perfil de acesso: Administrador do sistema</div>
+          </div>
+        </div>
+
+        <form id="form-perfil">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Nome</label>
+              <input type="text" name="nome" value="Administrador">
+            </div>
+            <div class="form-field">
+              <label>E-mail</label>
+              <input type="email" name="email" placeholder="Ex: admin@empresa.com">
+            </div>
+            <div class="form-field span-2">
+              <label>Nova senha</label>
+              <input type="password" name="nova_senha" placeholder="Deixe em branco para manter a senha atual">
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

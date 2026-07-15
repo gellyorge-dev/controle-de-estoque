@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itens de Estoque — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link active" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Itens de Estoque</div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Itens de Estoque</h1>
+          <p>Itens consumíveis/estoque geral, com quantidade e espaço de armazenamento vinculado.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-item')">+ Novo Item</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar item…" oninput="filterTable(this, 'tbody-itens')">
+          <span class="form-hint">3 itens</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Espaço de armazenamento</th>
+              <th>Quantidade</th>
+              <th>Atualizado em</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-itens">
+            <tr>
+              <td data-label="Item">
+                <div class="cell-primary">MONITOR DELL</div>
+                <div class="cell-sub">Monitor DELL</div>
+              </td>
+              <td data-label="Espaço de armazenamento"><a class="ref-chip" href="/espacos-armazenamento">Armário 4</a></td>
+              <td data-label="Quantidade"><span class="badge badge-ok">3 un.</span></td>
+              <td class="cell-sub" data-label="Atualizado em">10/07/2026</td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-item')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Item">
+                <div class="cell-primary">MONITOR SAMSUMG</div>
+                <div class="cell-sub">Monitor SAMSUMG</div>
+              </td>
+              <td data-label="Espaço de armazenamento"><a class="ref-chip" href="/espacos-armazenamento">Armário 6</a></td>
+              <td data-label="Quantidade"><span class="badge badge-warn">2 un.</span></td>
+              <td class="cell-sub" data-label="Atualizado em">05/07/2026</td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-item')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="Item">
+                <div class="cell-primary">MONITOR LG</div>
+                <div class="cell-sub">Monitor LG</div>
+              </td>
+              <td data-label="Espaço de armazenamento"><a class="ref-chip" href="/espacos-armazenamento">Armário 1</a></td>
+              <td data-label="Quantidade"><span class="badge badge-ok">15 un.</span></td>
+              <td class="cell-sub" data-label="Atualizado em">28/06/2026</td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-item')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-card" style="margin-top:20px;">
+        <div class="table-toolbar">
+            <h2>Registros de Auditoria</h2>
+            <input class="search-input"
+                   placeholder="Buscar registro..."
+                   oninput="filterTable(this, 'tbody-auditoria')">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Tabela</th>
+                    <th>Registro</th>
+                    <th>Ação</th>
+                    <th>Valor Anterior</th>
+                    <th>Valor Novo</th>
+                    <th>Observação</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+
+            <tbody id="tbody-auditoria">
+            </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-item">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Novo Item de Estoque</h2>
+        <p>Campos correspondentes ao schema de <code>/item-estoque</code></p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-item')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-item">
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label>Nome do item <span class="req">*</span></label>
+            <input type="text" name="nome_item" required placeholder="Ex: Monitor Dell">
+          </div>
+
+          <div class="form-field">
+            <label>Quantidade <span class="req">*</span></label>
+            <input type="number" name="quantidade" required placeholder="Ex: 3">
+          </div>
+          <div class="form-field">
+            <label>Espaço de armazenamento <span class="req">*</span></label>
+            <select name="espaco_armazenamento_id" required>
+              <option value="">Selecione o espaço</option>
+              <option value="1">Armário 1</option>
+              <option value="2">Armário 4</option>
+              <option value="3">Armário 6</option>
+              <option value="4">Depósito</option>
+            </select>
+          </div>
+
+          <div class="form-field span-2">
+            <label>Descrição do item</label>
+            <textarea name="descricao_item" placeholder="Ex: Monitor SAMSUMG 24 polegadas"></textarea>
+          </div>
+
+          <div class="form-field span-2">
+            <label>Arquivo de imagem</label>
+            <select name="arquivo_imagem_id">
+              <option value="">Nenhuma</option>
+              <option value="1">notebook-dell-01.jpg</option>
+              <option value="2">monitor-lg-01.jpg</option>
+            </select>
+          </div>
+
+          <div class="form-field span-2">
+            <label>Observações</label>
+            <textarea name="observacoes_item" placeholder="Observações adicionais sobre o item"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+
+     <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-item')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-item">Salvar item</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

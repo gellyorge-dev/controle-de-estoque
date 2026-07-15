@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['nome_arquivo', 'caminho', 'mime_type', 'tamanho', 'hash'])]
 class ArquivoImagem extends Model
 {
-    protected $table = 'arquivo_imagem';
+    protected $table = 'arquivo_img';
 
     public function usuariosSistema(): HasMany
     {

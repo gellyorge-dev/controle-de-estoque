@@ -14,7 +14,7 @@ class StoreMarcaEquipamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:100', 'unique:marca_equipamento,nome'],
+            'nome' => ['required', 'string', 'max:100', 'unique:marca_eqp,nome'],
         ];
     }
 }

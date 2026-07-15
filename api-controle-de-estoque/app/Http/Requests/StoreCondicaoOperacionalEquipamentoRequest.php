@@ -14,7 +14,7 @@ class StoreCondicaoOperacionalEquipamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:100', 'unique:condicao_operacional_equipamento,nome'],
+            'nome' => ['required', 'string', 'max:100', 'unique:cond_eqp,nome'],
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckProfile;
+use App\Http\Middleware\PreventBackHistory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,7 +15,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'is.administrador' => CheckProfile::class,
+            'is.operador.estoque' => CheckProfile::class,
+            'is.consulta' => CheckProfile::class,
+        ]);
+
+        $middleware->web(append: [
+            PreventBackHistory::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

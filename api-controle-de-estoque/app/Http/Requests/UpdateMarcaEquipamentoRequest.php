@@ -15,7 +15,7 @@ class UpdateMarcaEquipamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:100', Rule::unique('marca_equipamento', 'nome')->ignore($this->route('marcas_equipamento'))],
+            'nome' => ['required', 'string', 'max:100', Rule::unique('marca_eqp', 'nome')->ignore($this->route('id'))],
         ];
     }
 }

@@ -14,7 +14,7 @@ class UpdateEspacoArmazenamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'unidade_organizacional_id' => ['required', 'exists:unidade_organizacional,id'],
+            'unidade_organizacional_id' => ['required', 'exists:unidade_org,id'],
             'nome' => ['required', 'string', 'max:150'],
             'descricao' => ['nullable', 'string', 'max:255'],
         ];

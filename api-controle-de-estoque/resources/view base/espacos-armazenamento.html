@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espaços de Armazenamento — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+   <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link active" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Espaços de Armazenamento</div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+</div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Espaços de Armazenamento</h1>
+          <p>Unidade Organizacional</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-espaco')">+ Novo Espaço</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar espaço…" oninput="filterTable(this, 'tbody-espacos')">
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Unidade Organizacional</th>
+              <th>Descrição</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-espacos">
+            <tr>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#1</td>
+              <td class="cell-primary" data-label="Nome">xxxxx</td>
+              <td data-label="Unidade Organizacional"><a class="ref-chip" href="/unidades-organizacionais">Armário 4</a></td>
+              <td class="cell-sub" data-label="Descrição">xxxxx</td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-espaco')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#2</td>
+              <td class="cell-primary" data-label="Nome">xxxxx</td>
+              <td data-label="Unidade Organizacional"><a class="ref-chip" href="/unidades-organizacionais">Armário 4</a></td>
+              <td class="cell-sub" data-label="Descrição">xxxxxxxx</td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-espaco')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#3</td>
+              <td class="cell-primary" data-label="Nome">xxxxxxx</td>
+              <td data-label="Unidade Organizacional"><a class="ref-chip" href="/unidades-organizacionais">Armário 1</a></td>
+              <td class="cell-sub" data-label="Descrição">xxxxxx</td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-espaco')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-espaco">
+  <div class="modal" style="max-width: 520px;">
+    <div class="modal-head">
+      <div>
+        <h2>Novo Espaço de Armazenamento</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-espaco')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-espaco">
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label>Nome <span class="req">*</span></label>
+            <input type="text" name="nome" required placeholder="Ex: Depósito">
+          </div>
+          <div class="form-field span-2">
+            <label>Unidade Organizacional <span class="req">*</span></label>
+            <select name="unidade_organizacional_id" required>
+              <option value="">Selecione a unidade</option>
+              <option value="1">Armário 1</option>
+              <option value="2">Armário 4</option>
+              <option value="3">Armário 6</option>
+            </select>
+          </div>
+          <div class="form-field span-2">
+            <label>Descrição</label>
+            <textarea name="descricao" placeholder="Ex: Depósito"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-espaco')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-espaco">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

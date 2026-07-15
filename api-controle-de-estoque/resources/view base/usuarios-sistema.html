@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usuários do Sistema — Painel de Patrimônio</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link active" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Usuários do Sistema</div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+    <span>Administrador</span>
+    </div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Usuários do Sistema</h1>
+          <p>Cadastro de acesso ao painel e vínculo com perfil de permissão.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('modal-usuario')">+ Novo Usuário</button>
+      </div>
+
+      <nav class="subnav">
+        <a class="subnav-btn active" href="/usuarios-sistema">Usuários</a>
+        <a class="subnav-btn" href="/usuarios-sistema/perfis">Perfis de Usuário</a>
+      </nav>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Buscar por nome ou login…" oninput="filterTable(this, 'tbody-usuarios')">
+          <span class="form-hint">3 usuários</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Login</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-usuarios">
+        
+            <tr>
+              <td class="cell-primary" data-label="Usuário">Fulano de Tal</td>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="Login">fulano.de.tal</td>
+              <td data-label="Perfil"><a class="ref-chip" href="/usuarios-sistema/perfis">Administrador</a></td>
+              <td data-label="Status"><span class="badge badge-ok">Ativo</span></td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-usuario')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell-primary" data-label="Usuário">Ciclano de tal</td>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="Login">ciclano.de.tal</td>
+              <td data-label="Perfil"><a class="ref-chip" href="/usuarios-sistema/perfis">Operador de Estoque</a></td>
+              <td data-label="Status"><span class="badge badge-ok">Ativo</span></td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-usuario')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="cell-primary" data-label="Usuário">Leiriane Lopes</td>
+              <td class="cell-sub" style="font-family: var(--font-mono);" data-label="Login">leiriane.lopes</td>
+              <td data-label="Perfil"><a class="ref-chip" href="/usuarios-sistema/perfis">Consulta</a></td>
+              <td data-label="Status"><span class="badge badge-warn">Inativo</span></td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" onclick="openModal('modal-usuario')">Editar</button>
+                  <button class="btn btn-danger-ghost btn-sm">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-usuario">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Novo Usuário</h2>
+        <p>Campos correspondentes ao schema de <code>/usuarios-sistema</code></p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-usuario')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-usuario">
+        <div class="form-grid">
+          <div class="form-field span-2">
+            <label>Nome do usuário <span class="req">*</span></label>
+            <input type="text" name="nome_usuario" required placeholder="Ex: Fulano de Tal">
+          </div>
+          <div class="form-field">
+            <label>Login <span class="req">*</span></label>
+            <input type="text" name="login_usuario" required placeholder="Ex: fulano.de.tal">
+          </div>
+          <div class="form-field">
+            <label>Perfil de usuário <span class="req">*</span></label>
+            <select name="perfil_usuario_id" required>
+              <option value="">Selecione o perfil</option>
+              <option value="1">Administrador</option>
+              <option value="2">Operador de Estoque</option>
+              <option value="3">Consulta</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Arquivo de imagem</label>
+            <select name="arquivo_imagem_id">
+              <option value="">Nenhuma</option>
+              <option value="1">avatar-fulano.jpg</option>
+              <option value="2">avatar-ciclano.jpg</option>
+            </select>
+          </div>
+          <div class="form-field checkbox-field" style="padding-top: 22px;">
+            <input type="checkbox" id="ativo" name="ativo" checked>
+            <label for="ativo">Usuário ativo</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('modal-usuario')">Cancelar</button>
+      <button class="btn btn-primary" type="submit" form="form-usuario">Salvar usuário</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

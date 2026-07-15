@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Patrimônio — Controle de Ativos e Estoque</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+<link rel="stylesheet" href="/assets/css/sidebar.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="/" style="text-decoration:none;">
+      <div class="brand-mark">STI</div>
+      <div>
+        <div class="brand-text">Controle de ativos e estoque</div>
+      </div>
+    </a>
+    <div>
+      <div class="nav-group-label">Estrutura</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/unidades-organizacionais"><span class="dot"></span>Unidades Organizacionais</a></li>
+        <li><a class="nav-link" href="/espacos-armazenamento"><span class="dot"></span>Espaços de Armazenamento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Operacional</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/usuarios-sistema"><span class="dot"></span>Usuários do Sistema</a></li>
+        <li><a class="nav-link" href="/equipamentos-patrimoniados"><span class="dot"></span>Equipamentos Patrimoniados</a></li>
+        <li><a class="nav-link" href="/itens-estoque"><span class="dot"></span>Itens de Estoque</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="nav-group-label">Auditoria</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="/registros-auditoria"><span class="dot"></span>Registros de Auditoria</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+      <div class="topbar-title">Painel de Controle</div>
+      <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+        <span>Administrador</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h1>Painel de Controle</h1>
+          <p>Gerencie unidades, equipamentos, estoque e usuários do sistema.</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <a class="entity-card" href="/unidades-organizacionais">
+          <div class="icon-dot">U</div>
+          <h3>Unidades Organizacionais</h3>
+          <p>Estrutura base de setores e departamentos.</p>
+        </a>
+        <a class="entity-card" href="/espacos-armazenamento">
+          <div class="icon-dot">E</div>
+          <h3>Espaços de Armazenamento</h3>
+          <p>Depósitos, armários e locais físicos vinculados.</p>
+        </a>
+        <a class="entity-card" href="/usuarios-sistema">
+          <div class="icon-dot">U</div>
+          <h3>Usuários do Sistema</h3>
+          <p>Cadastro de acesso ao painel e perfis de permissão.</p>
+        </a>
+        <a class="entity-card" href="/equipamentos-patrimoniados">
+          <div class="icon-dot">E</div>
+          <h3>Equipamentos Patrimoniados</h3>
+          <p>Cadastro, edição e baixa de equipamentos patrimoniados.</p>
+        </a>
+        <a class="entity-card" href="/itens-estoque">
+          <div class="icon-dot">I</div>
+          <h3>Itens de Estoque</h3>
+          <p>Consumíveis com quantidade e localização.</p>
+        </a>
+        <a class="entity-card" href="/registros-auditoria">
+          <div class="icon-dot">A</div>
+          <h3>Registros de Auditoria</h3>
+          <p>Histórico de alterações realizadas no sistema.</p>
+        </a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="/assets/ui.js"></script>
+</body>
+</html>

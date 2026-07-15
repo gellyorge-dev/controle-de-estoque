@@ -16,7 +16,7 @@ class UsuarioSistema extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    protected $table = 'usuario_sistema';
+    protected $table = 'usuario_sis';
 
     public function getAuthPassword(): string
     {

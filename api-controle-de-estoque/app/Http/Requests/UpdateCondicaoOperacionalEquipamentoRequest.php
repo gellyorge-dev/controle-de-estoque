@@ -15,7 +15,7 @@ class UpdateCondicaoOperacionalEquipamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:100', Rule::unique('condicao_operacional_equipamento', 'nome')->ignore($this->route('condicoes_operacionai'))],
+            'nome' => ['required', 'string', 'max:100', Rule::unique('cond_eqp', 'nome')->ignore($this->route('id'))],
         ];
     }
 }

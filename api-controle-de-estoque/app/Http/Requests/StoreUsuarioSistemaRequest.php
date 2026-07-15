@@ -14,11 +14,11 @@ class StoreUsuarioSistemaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'perfil_usuario_id' => ['required', 'exists:perfil_usuario,id'],
-            'arquivo_imagem_id' => ['nullable', 'exists:arquivo_imagem,id'],
+            'perfil_usuario_id' => ['required', 'exists:perfil_usr,id'],
+            'arquivo_imagem_id' => ['nullable', 'exists:arquivo_img,id'],
             'nome_usuario' => ['required', 'string', 'max:150'],
-            'login_usuario' => ['required', 'string', 'max:100', 'unique:usuario_sistema,login_usuario'],
-            'senha_usuario' => ['required', 'string', 'max:255'],
+            'login_usuario' => ['required', 'string', 'max:100', 'unique:usuario_sis,login_usuario'],
+            'senha_usuario' => ['required', 'string', 'min:8', 'max:255'],
             'ativo' => ['boolean'],
         ];
     }

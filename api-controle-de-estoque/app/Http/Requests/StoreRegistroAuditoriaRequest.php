@@ -14,7 +14,7 @@ class StoreRegistroAuditoriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'usuario_sistema_id' => ['required', 'exists:usuario_sistema,id'],
+            'usuario_sistema_id' => ['required', 'exists:usuario_sis,id'],
             'nome_tabela' => ['required', 'string', 'max:100'],
             'identificador_registro' => ['required', 'integer'],
             'tipo_acao' => ['required', 'string', 'max:30'],

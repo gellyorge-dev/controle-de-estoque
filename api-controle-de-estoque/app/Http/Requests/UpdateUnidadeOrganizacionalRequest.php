@@ -15,7 +15,7 @@ class UpdateUnidadeOrganizacionalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'max:150', Rule::unique('unidade_organizacional', 'nome')->ignore($this->route('unidades_organizacionai'))],
+            'nome' => ['required', 'string', 'max:150', Rule::unique('unidade_org', 'nome')->ignore($this->route('id'))],
         ];
     }
 }
