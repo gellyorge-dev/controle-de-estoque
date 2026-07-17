@@ -4,50 +4,49 @@
 
 @section('topbar_title', 'Dashboard')
 
+@php
+    $pieData = [
+        ['label' => 'Equipamentos', 'value' => $counts['equipamentos'], 'color' => '#3b82f6'],
+        ['label' => 'Itens', 'value' => $counts['itens'], 'color' => '#8b5cf6'],
+        ['label' => 'Unidades', 'value' => $counts['unidades'], 'color' => '#10b981'],
+        ['label' => 'Espaços', 'value' => $counts['espacos'], 'color' => '#14b8a6'],
+        ['label' => 'Usuários', 'value' => $counts['usuarios'], 'color' => '#f97316'],
+        ['label' => 'Perfis', 'value' => $counts['perfis'], 'color' => '#f43f5e'],
+        ['label' => 'Marcas', 'value' => $counts['marcas'], 'color' => '#06b6d4'],
+        ['label' => 'Tipos', 'value' => $counts['tipos'], 'color' => '#a855f7'],
+        ['label' => 'Condições', 'value' => $counts['condicoes'], 'color' => '#eab308'],
+    ];
+    $total = array_sum(array_column($pieData, 'value'));
+    $pctSum = 0;
+    $stops = [];
+    foreach ($pieData as $item) {
+        $pct = $total > 0 ? ($item['value'] / $total) * 100 : 0;
+        $stops[] = $item['color'] . ' ' . round($pctSum, 2) . '% ' . round($pctSum + $pct, 2) . '%';
+        $pctSum += $pct;
+    }
+    $gradient = 'conic-gradient(' . implode(', ', $stops) . ')';
+@endphp
+
 @section('content')
 <div class="table-card">
     <div class="table-toolbar"><h2>Resumo do Sistema</h2></div>
     <div style="padding:24px;">
-        <div class="dashboard-grid">
-            <div class="stat-box">
-                <span class="stat-label">Equipamentos Patrimoniados</span>
-                <span class="stat-value">{{ $counts['equipamentos'] }}</span>
+        <div class="pie-wrap">
+            <div class="pie" style="background:{{ $gradient }}">
+                <div class="pie-hole">
+                    <span class="pie-total">{{ $total }}</span>
+                    <span class="pie-total-label">total</span>
+                </div>
             </div>
-            <div class="stat-box">
-                <span class="stat-label">Itens em Estoque</span>
-                <span class="stat-value">{{ $counts['itens'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Unidades Organizacionais</span>
-                <span class="stat-value">{{ $counts['unidades'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Espaços de Armazenamento</span>
-                <span class="stat-value">{{ $counts['espacos'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Usuários</span>
-                <span class="stat-value">{{ $counts['usuarios'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Perfis</span>
-                <span class="stat-value">{{ $counts['perfis'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Marcas</span>
-                <span class="stat-value">{{ $counts['marcas'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Tipos de Equipamento</span>
-                <span class="stat-value">{{ $counts['tipos'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Condições Operacionais</span>
-                <span class="stat-value">{{ $counts['condicoes'] }}</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Registros de Auditoria</span>
-                <span class="stat-value">{{ $counts['auditorias'] }}</span>
+            <div class="pie-legend">
+                @foreach($pieData as $item)
+                @php $pct = $total > 0 ? round(($item['value'] / $total) * 100, 1) : 0; @endphp
+                <div class="pie-legend-item">
+                    <span class="pie-dot" style="background:{{ $item['color'] }}"></span>
+                    <span class="pie-legend-label">{{ $item['label'] }}</span>
+                    <span class="pie-legend-pct">{{ $pct }}%</span>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>

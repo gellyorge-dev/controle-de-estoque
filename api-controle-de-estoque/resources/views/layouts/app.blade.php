@@ -20,7 +20,6 @@
         </main>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/assets/ui.js"></script>
 <div class="modal-overlay" id="modal-confirm-delete">
     <div class="modal modal-danger">
