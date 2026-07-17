@@ -36,6 +36,9 @@
         <th>Espaço de armazenamento</th>
         <th>Quantidade</th>
         <th>Atualizado em</th>
+        @if($isConsulta)
+        <th>Ações</th>
+        @endif
     </x-slot>
     @foreach($itens as $item)
     @if($isConsulta)
@@ -49,8 +52,11 @@
         </td>
         <td data-label="Unidade">{{ $item->espacoArmazenamento?->unidadeOrganizacional?->nome ?? '—' }}</td>
         <td data-label="Espaço de armazenamento">{{ $item->espacoArmazenamento?->nome ?? '—' }}</td>
-        <td data-label="Quantidade"><x-indicador variant="ok">{{ $item->quantidade }} un.</x-indicador></td>
+        <td data-label="Quantidade" onclick="event.stopPropagation()"><x-indicador variant="ok">{{ $item->quantidade }} un.</x-indicador></td>
         <td class="cell-sub" data-label="Atualizado em">{{ $item->created_at->format('d/m/Y') }}</td>
+        @if($isConsulta)
+        <td data-label="Ações"><x-botao size="sm" href="/itens-estoque/{{ $item->id }}/editar">Visualizar</x-botao></td>
+        @endif
     </tr>
     @endforeach
 </x-tabela.cartao>

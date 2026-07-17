@@ -27,7 +27,7 @@
                 @csrf
                 @method('PATCH')
                 @if($usuario->ativo)
-                <x-botao size="sm" variant="primary" type="submit" onclick="return confirm('Desativar este usuário?')">Ativo</x-botao>
+                <x-botao size="sm" variant="primary" type="button" onclick="openDeleteModal('/usuarios-sistema/{{ $usuario->id }}/toggle-ativo', 'Tem certeza que deseja desativar este usuário? Esta ação pode ser revertida ativando novamente.', 'PATCH')">Ativo</x-botao>
                 @else
                 <x-botao size="sm" type="submit">Inativo</x-botao>
                 @endif

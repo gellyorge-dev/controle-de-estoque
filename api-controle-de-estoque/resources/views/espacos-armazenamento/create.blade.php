@@ -47,7 +47,7 @@
         </div>
         <div class="form-footer">
             @if($deleteUrl)
-            <x-botao variant="danger-ghost" type="button" onclick="if(confirm('Confirmar exclusão?')){document.getElementById('delete-espaco').submit()}">Excluir espaço</x-botao>
+            <x-botao variant="danger-ghost" type="button" onclick="openDeleteModal('{{ $deleteUrl }}', 'Tem certeza que deseja excluir este espaço? Esta ação é irreversível.')">Excluir espaço</x-botao>
             @endif
             <div class="form-footer-right">
                 <x-botao href="{{ $backUrl }}">Cancelar</x-botao>
@@ -55,11 +55,5 @@
             </div>
         </div>
     </form>
-    @if($deleteUrl)
-    <form id="delete-espaco" action="{{ $deleteUrl }}" method="POST" style="display:none;">
-        @csrf
-        @method('DELETE')
-    </form>
-    @endif
 </x-tabela.cartao>
 @endsection

@@ -62,6 +62,9 @@
         <th>Unidade</th>
         <th>Localização</th>
         <th>Status</th>
+        @if($isConsulta)
+        <th>Ações</th>
+        @endif
     </x-slot>
     @foreach($equipamentos as $equipamento)
     @if($isConsulta)
@@ -69,23 +72,26 @@
     @else
     <tr onclick="window.location='/equipamentos-patrimoniados/{{ $equipamento->id }}/editar'" style="cursor:pointer;">
     @endif
-        <td data-label="Patrimônio"><x-tabela.patrimonio :number="$equipamento->numero_patrimonio" /></td>
+        <td data-label="Patrimônio" onclick="event.stopPropagation()"><x-tabela.patrimonio :number="$equipamento->numero_patrimonio" /></td>
         <td data-label="Equipamento">
             <div class="cell-primary">{{ $equipamento->nome_equipamento }}</div>
             <div class="cell-sub">{{ $equipamento->numero_serie }}</div>
         </td>
         <td data-label="Marca">{{ $equipamento->marcaEquipamento->nome }}</td>
         <td data-label="Tipo">{{ $equipamento->tipoEquipamento->nome }}</td>
-        <td data-label="Condição"><x-indicador variant="ok">{{ $equipamento->condicaoOperacionalEquipamento->nome }}</x-indicador></td>
+        <td data-label="Condição" onclick="event.stopPropagation()"><x-indicador variant="ok">{{ $equipamento->condicaoOperacionalEquipamento->nome }}</x-indicador></td>
         <td data-label="Unidade">{{ $equipamento->espacoArmazenamento->unidadeOrganizacional->nome }}</td>
         <td data-label="Localização">{{ $equipamento->espacoArmazenamento->nome }}</td>
-        <td data-label="Status">
+        <td data-label="Status" onclick="event.stopPropagation()">
             @if($equipamento->informado_ao_patrimonio)
             <x-indicador variant="ok">Informado</x-indicador>
             @else
             <x-indicador variant="warn">Ativo</x-indicador>
             @endif
         </td>
+        @if($isConsulta)
+        <td data-label="Ações"><x-botao size="sm" href="/equipamentos-patrimoniados/{{ $equipamento->id }}/editar">Visualizar</x-botao></td>
+        @endif
     </tr>
     @endforeach
 </x-tabela.cartao>

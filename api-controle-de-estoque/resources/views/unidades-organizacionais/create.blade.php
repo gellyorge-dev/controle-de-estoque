@@ -5,6 +5,15 @@
 @section('topbar_title', isset($unidade) ? 'Editar Unidade' : 'Nova Unidade')
 
 @section('content')
+@if($errors->any())
+<div class="alert alert-error">
+    <ul style="margin:0;padding-left:18px;">
+        @foreach($errors->all() as $erro)
+        <li>{{ $erro }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 @if(session('error'))
 <div class="alert alert-error">{{ session('error') }}</div>
 @endif
@@ -22,7 +31,7 @@
         </div>
         <div class="form-footer">
             @isset($unidade)
-            <x-botao variant="danger-ghost" type="button" onclick="if(confirm('Confirmar exclusão?')){document.getElementById('delete-unidade').submit()}">Excluir unidade</x-botao>
+            <x-botao variant="danger-ghost" type="button" onclick="openDeleteModal('/unidades-organizacionais/{{ $unidade->id }}', 'Tem certeza que deseja excluir esta unidade? Esta ação é irreversível.')">Excluir unidade</x-botao>
             @endisset
             <div class="form-footer-right">
                 <x-botao href="/unidades-organizacionais">Cancelar</x-botao>
@@ -30,11 +39,5 @@
             </div>
         </div>
     </form>
-    @isset($unidade)
-    <form id="delete-unidade" action="/unidades-organizacionais/{{ $unidade->id }}" method="POST" style="display:none;">
-        @csrf
-        @method('DELETE')
-    </form>
-    @endisset
 </x-tabela.cartao>
 @endsection

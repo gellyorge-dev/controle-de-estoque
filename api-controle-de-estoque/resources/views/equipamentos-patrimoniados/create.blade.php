@@ -1,8 +1,13 @@
 @extends('layouts.app')
 
-@section('title', isset($equipamento) ? 'Editar Equipamento' : 'Novo Equipamento')
+@php
+    $isConsulta = Auth::user()->perfil_usuario_id === 3;
+    $isViewing = $isConsulta && isset($equipamento);
+@endphp
 
-@section('topbar_title', isset($equipamento) ? 'Editar Equipamento' : 'Novo Equipamento')
+@section('title', isset($equipamento) ? ($isViewing ? 'Visualizar Equipamento' : 'Editar Equipamento') : 'Novo Equipamento')
+
+@section('topbar_title', isset($equipamento) ? ($isViewing ? 'Visualizar Equipamento' : 'Editar Equipamento') : 'Novo Equipamento')
 
 @php
     $espacosJson = $espacos->groupBy('unidade_organizacional_id')->map(fn($group) => $group->map(fn($e) => ['id' => $e->id, 'nome' => $e->nome])->values());
@@ -10,8 +15,79 @@
 @endphp
 
 @section('content')
+@if($errors->any())
+<div class="alert alert-error">
+    <ul style="margin:0;padding-left:16px;">
+        @foreach($errors->all() as $erro)
+        <li>{{ $erro }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <x-tabela.cartao search="false">
-    <form action="/equipamentos-patrimoniados{{ isset($equipamento) ? '/' . $equipamento->id : '' }}" method="POST" enctype="multipart/form-data">
+    @if($isViewing)
+    <div class="image-upload-wrap">
+        <div class="image-upload-box @if(isset($equipamento) && $equipamento->arquivoImagem) has-image @endif" style="cursor:default">
+            @if(isset($equipamento) && $equipamento->arquivoImagem)
+            <img src="/imagens/patrimoniados/{{ $equipamento->id }}" alt="">
+            @else
+            <div class="placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span>Sem imagem</span>
+            </div>
+            @endif
+        </div>
+    </div>
+    <div style="padding:20px 24px;">
+        <x-formulario.grade>
+            <x-formulario.campo label="Nome do equipamento">
+                <div class="form-valor">{{ $equipamento->nome_equipamento ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Nº de patrimônio">
+                <div class="form-valor">#{{ $equipamento->numero_patrimonio ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Nº de série">
+                <div class="form-valor">{{ $equipamento->numero_serie ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Marca">
+                <div class="form-valor">{{ $equipamento->marcaEquipamento?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Tipo de equipamento">
+                <div class="form-valor">{{ $equipamento->tipoEquipamento?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Condição operacional">
+                <div class="form-valor">{{ $equipamento->condicaoOperacionalEquipamento?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Unidade Organizacional">
+                <div class="form-valor">{{ $equipamento->espacoArmazenamento?->unidadeOrganizacional?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Espaço de armazenamento">
+                <div class="form-valor">{{ $equipamento->espacoArmazenamento?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Descrição do equipamento" :span="2">
+                <div class="form-valor">{{ $equipamento->descricao_equipamento ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Local anterior">
+                <div class="form-valor">{{ $equipamento->local_anterior ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Destino">
+                <div class="form-valor">{{ $equipamento->destino ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Observações" :span="2">
+                <div class="form-valor">{{ $equipamento->observacoes_equipamento ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="" :span="2">
+                <div class="form-valor">{{ $equipamento->informado_ao_patrimonio ? '✓ Informado ao setor de patrimônio' : '—' }}</div>
+            </x-formulario.campo>
+        </x-formulario.grade>
+    </div>
+    <div class="form-footer">
+        <div class="form-footer-right">
+            <x-botao href="/equipamentos-patrimoniados">Voltar</x-botao>
+        </div>
+    </div>
+    @else
+    <form id="main-form" action="/equipamentos-patrimoniados{{ isset($equipamento) ? '/' . $equipamento->id : '' }}" method="POST" enctype="multipart/form-data">
         @csrf
         @isset($equipamento) @method('PUT') @endisset
         <div class="image-upload-wrap">
@@ -37,7 +113,7 @@
                     <input type="text" name="nome_equipamento" required value="{{ old('nome_equipamento', $equipamento->nome_equipamento ?? '') }}" placeholder="Ex: Monitor Dell">
                 </x-formulario.campo>
                 <x-formulario.campo label="Nº de patrimônio" required>
-                    <input type="number" name="numero_patrimonio" required value="{{ old('numero_patrimonio', $equipamento->numero_patrimonio ?? '') }}" placeholder="Ex: 030278">
+                    <input type="number" name="numero_patrimonio" required value="{{ old('numero_patrimonio', $equipamento->numero_patrimonio ?? '') }}" placeholder="Ex: 30302">
                 </x-formulario.campo>
 
                 <x-formulario.campo label="Nº de série">
@@ -70,7 +146,7 @@
                 </x-formulario.campo>
 
                 <x-formulario.campo label="Unidade Organizacional" required>
-                    <select id="unidade-select" required onchange="filtrarEspacos()">
+                    <select name="unidade_id" id="unidade-select" required onchange="filtrarEspacos()">
                         <option value="">Selecione a unidade</option>
                         @foreach($unidades as $unidade)
                         <option value="{{ $unidade->id }}" {{ ($equipamentoUnidadeId ?? old('unidade_id')) == $unidade->id ? 'selected' : '' }}>{{ $unidade->nome }}</option>
@@ -109,7 +185,7 @@
         </div>
         <div class="form-footer">
             @isset($equipamento)
-            <x-botao variant="danger-ghost" type="button" onclick="if(confirm('Confirmar exclusão?')){document.getElementById('delete-equipamento').submit()}">Excluir equipamento</x-botao>
+            <x-botao variant="danger-ghost" type="button" onclick="openDeleteModal('/equipamentos-patrimoniados/{{ $equipamento->id }}', 'Tem certeza que deseja excluir este equipamento? Esta ação é irreversível.')">Excluir equipamento</x-botao>
             @endisset
             <div class="form-footer-right">
                 <x-botao href="/equipamentos-patrimoniados">Cancelar</x-botao>
@@ -117,14 +193,12 @@
             </div>
         </div>
     </form>
-    @isset($equipamento)
-    <form id="delete-equipamento" action="/equipamentos-patrimoniados/{{ $equipamento->id }}" method="POST" style="display:none;">
-        @csrf
-        @method('DELETE')
-    </form>
-    @endisset
+    @endif
 </x-tabela.cartao>
 
+@if($isViewing)
+<style>.image-upload-box .overlay{display:none!important}</style>
+@endif
 <script>
 const espacosPorUnidade = @json($espacosJson);
 

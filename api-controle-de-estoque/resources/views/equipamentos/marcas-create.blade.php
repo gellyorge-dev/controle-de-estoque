@@ -11,6 +11,18 @@
 @endsection
 
 @section('content')
+@if($errors->any())
+<div class="alert alert-error">
+    <ul style="margin:0;padding-left:18px;">
+        @foreach($errors->all() as $erro)
+        <li>{{ $erro }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+@if(session('error'))
+<div class="alert alert-error">{{ session('error') }}</div>
+@endif
 <x-tabela.cartao search="false" style="max-width: 440px;">
     <x-slot:toolbar><h2>Informações</h2></x-slot>
     <form action="/equipamentos/marcas{{ isset($marca) ? '/' . $marca->id : '' }}" method="POST">

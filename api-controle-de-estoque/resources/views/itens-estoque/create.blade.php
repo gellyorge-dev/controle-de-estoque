@@ -1,8 +1,13 @@
 @extends('layouts.app')
 
-@section('title', isset($item) ? 'Editar Item' : 'Novo Item')
+@php
+    $isConsulta = Auth::user()->perfil_usuario_id === 3;
+    $isViewing = $isConsulta && isset($item);
+@endphp
 
-@section('topbar_title', isset($item) ? 'Editar Item' : 'Novo Item')
+@section('title', isset($item) ? ($isViewing ? 'Visualizar Item' : 'Editar Item') : 'Novo Item')
+
+@section('topbar_title', isset($item) ? ($isViewing ? 'Visualizar Item' : 'Editar Item') : 'Novo Item')
 
 @php
     $espacosJson = $espacos->groupBy('unidade_organizacional_id')->map(fn($group) => $group->map(fn($e) => ['id' => $e->id, 'nome' => $e->nome])->values());
@@ -10,9 +15,60 @@
 @endphp
 
 @section('content')
+@if($errors->any())
+<div class="alert alert-error">
+    <ul style="margin:0;padding-left:16px;">
+        @foreach($errors->all() as $erro)
+        <li>{{ $erro }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <x-tabela.cartao search="false">
+    @if($isViewing)
+    <x-slot:toolbar><h2>Visualizar Item</h2></x-slot>
+    <div class="image-upload-wrap">
+        <div class="image-upload-box @if(isset($item) && $item->arquivoImagem) has-image @endif" style="cursor:default">
+            @if(isset($item) && $item->arquivoImagem)
+            <img src="/imagens/estoque/{{ $item->id }}" alt="">
+            @else
+            <div class="placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span>Sem imagem</span>
+            </div>
+            @endif
+        </div>
+    </div>
+    <div style="padding:20px 24px;">
+        <x-formulario.grade>
+            <x-formulario.campo label="Nome do item" :span="2">
+                <div class="form-valor">{{ $item->nome_item ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Quantidade">
+                <div class="form-valor">{{ $item->quantidade ?? '—' }} un.</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Unidade Organizacional">
+                <div class="form-valor">{{ $item->espacoArmazenamento?->unidadeOrganizacional?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Espaço de armazenamento">
+                <div class="form-valor">{{ $item->espacoArmazenamento?->nome ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Descrição do item" :span="2">
+                <div class="form-valor">{{ $item->descricao_item ?? '—' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="Observações" :span="2">
+                <div class="form-valor">{{ $item->observacoes_item ?? '—' }}</div>
+            </x-formulario.campo>
+        </x-formulario.grade>
+    </div>
+    <div class="form-footer">
+        <div class="form-footer-right">
+            <x-botao href="/itens-estoque">Voltar</x-botao>
+        </div>
+    </div>
+    @else
     <x-slot:toolbar><h2>{{ isset($item) ? 'Editar' : 'Novo' }} Item</h2></x-slot>
-    <form action="/itens-estoque{{ isset($item) ? '/' . $item->id : '' }}" method="POST" enctype="multipart/form-data">
+    <form id="main-form" action="/itens-estoque{{ isset($item) ? '/' . $item->id : '' }}" method="POST" enctype="multipart/form-data">
         @csrf
         @isset($item) @method('PUT') @endisset
         <div class="image-upload-wrap">
@@ -42,7 +98,7 @@
                     <input type="number" name="quantidade" required value="{{ old('quantidade', $item->quantidade ?? '') }}" placeholder="Ex: 3">
                 </x-formulario.campo>
                 <x-formulario.campo label="Unidade Organizacional" required>
-                    <select id="unidade-select" required onchange="filtrarEspacos()">
+                    <select name="unidade_id" id="unidade-select" required onchange="filtrarEspacos()">
                         <option value="">Selecione a unidade</option>
                         @foreach($unidades as $unidade)
                         <option value="{{ $unidade->id }}" {{ ($itemUnidadeId ?? old('unidade_id')) == $unidade->id ? 'selected' : '' }}>{{ $unidade->nome }}</option>
@@ -66,7 +122,7 @@
         </div>
         <div class="form-footer">
             @isset($item)
-            <x-botao variant="danger-ghost" type="button" onclick="if(confirm('Confirmar exclusão?')){document.getElementById('delete-item').submit()}">Excluir item</x-botao>
+            <x-botao variant="danger-ghost" type="button" onclick="openDeleteModal('/itens-estoque/{{ $item->id }}', 'Tem certeza que deseja excluir este item? Esta ação é irreversível.')">Excluir item</x-botao>
             @endisset
             <div class="form-footer-right">
                 <x-botao href="/itens-estoque">Cancelar</x-botao>
@@ -74,14 +130,8 @@
             </div>
         </div>
     </form>
-    @isset($item)
-    <form id="delete-item" action="/itens-estoque/{{ $item->id }}" method="POST" style="display:none;">
-        @csrf
-        @method('DELETE')
-    </form>
-    @endisset
+    @endif
 </x-tabela.cartao>
-
 <script>
 const espacosPorUnidade = @json($espacosJson);
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUsuarioSistemaRequest;
 use App\Http\Requests\UpdateUsuarioSistemaRequest;
-use App\Models\UsuarioSistema;
 use App\Services\ArquivoImagemService;
 use App\Services\ImagemUploadService;
 use App\Services\PerfilUsuarioService;
@@ -87,11 +86,9 @@ class UsuarioSistemaController extends Controller
 
         $data['ativo'] = $request->boolean('ativo');
 
-        if (! $data['ativo']) {
-            $erro = $this->checkSelfDeactivation($id) ?? $this->checkLastAdminActive($id, $usuario->perfil_usuario_id);
-            if ($erro) {
-                return redirect()->route('usuarios-sistema.edit', $id)->with('error', $erro);
-            }
+        $erro = $this->checkSelfDeactivation($id);
+        if ($erro) {
+            return redirect()->route('usuarios-sistema.edit', $id)->with('error', $erro);
         }
 
         if ($request->hasFile('arquivo')) {
@@ -99,7 +96,11 @@ class UsuarioSistemaController extends Controller
             $data['arquivo_imagem_id'] = $imagem->id;
         }
 
-        $this->service->update($id, $data);
+        try {
+            $this->service->update($id, $data);
+        } catch (\RuntimeException $e) {
+            return redirect()->route('usuarios-sistema.edit', $id)->with('error', $e->getMessage());
+        }
 
         return redirect()->route('usuarios-sistema.index');
     }
@@ -109,14 +110,16 @@ class UsuarioSistemaController extends Controller
         $usuario = $this->service->findOrFail($id);
         $novoStatus = ! $usuario->ativo;
 
-        if (! $novoStatus) {
-            $erro = $this->checkSelfDeactivation($id) ?? $this->checkLastAdminActive($id, $usuario->perfil_usuario_id);
-            if ($erro) {
-                return redirect()->route('usuarios-sistema.index')->with('error', $erro);
-            }
+        $erro = $this->checkSelfDeactivation($id);
+        if ($erro) {
+            return redirect()->route('usuarios-sistema.index')->with('error', $erro);
         }
 
-        $this->service->update($id, ['ativo' => $novoStatus]);
+        try {
+            $this->service->update($id, ['ativo' => $novoStatus]);
+        } catch (\RuntimeException $e) {
+            return redirect()->route('usuarios-sistema.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('usuarios-sistema.index');
     }
@@ -177,22 +180,6 @@ class UsuarioSistemaController extends Controller
     {
         if ((int) Auth::id() === $id) {
             return 'Você não pode desativar o próprio usuário.';
-        }
-
-        return null;
-    }
-
-    private function checkLastAdminActive(int $id, int $perfilId): ?string
-    {
-        if ($perfilId === 1) {
-            $adminsAtivos = UsuarioSistema::where('perfil_usuario_id', 1)
-                ->where('ativo', true)
-                ->where('id', '!=', $id)
-                ->count();
-
-            if ($adminsAtivos === 0) {
-                return 'Não é possível desativar o único administrador ativo.';
-            }
         }
 
         return null;

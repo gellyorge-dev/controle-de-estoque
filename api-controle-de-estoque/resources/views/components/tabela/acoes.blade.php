@@ -6,11 +6,7 @@
         <x-botao size="sm" :href="$editUrl">Editar</x-botao>
         @endif
         @if($deleteUrl)
-        <form action="{{ $deleteUrl }}" method="POST" style="display:inline;" onsubmit="return confirm('Confirmar exclusão?')">
-            @csrf
-            @method('DELETE')
-            <x-botao size="sm" variant="danger-ghost" type="submit">Excluir</x-botao>
-        </form>
+        <x-botao size="sm" variant="danger-ghost" type="button" onclick="openDeleteModal('{{ $deleteUrl }}', 'Tem certeza que deseja excluir este registro? Esta ação é irreversível.')">Excluir</x-botao>
         @endif
     </div>
 </td>

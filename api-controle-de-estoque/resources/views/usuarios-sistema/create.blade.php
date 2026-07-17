@@ -5,6 +5,15 @@
 @section('topbar_title', isset($usuario) ? 'Editar Usuário' : 'Novo Usuário')
 
 @section('content')
+@if($errors->any())
+<div class="alert alert-error">
+    <ul style="margin:0;padding-left:18px;">
+        @foreach($errors->all() as $erro)
+        <li>{{ $erro }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 @if(session('error'))
 <div class="alert alert-error">{{ session('error') }}</div>
 @endif

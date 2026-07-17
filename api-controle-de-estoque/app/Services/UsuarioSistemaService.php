@@ -43,6 +43,30 @@ class UsuarioSistemaService
     public function update(int $id, array $data): UsuarioSistema
     {
         $record = $this->findOrFail($id);
+
+        $wouldBeAdmin = (array_key_exists('perfil_usuario_id', $data) ? $data['perfil_usuario_id'] : $record->perfil_usuario_id) === 1;
+        $wouldBeActive = array_key_exists('ativo', $data) ? $data['ativo'] : $record->ativo;
+
+        if ($wouldBeAdmin && $wouldBeActive) {
+            $old = $record->toArray();
+            $record->update($data);
+
+            $this->recordAudit('update', $record, $old, $data);
+
+            return $record->fresh();
+        }
+
+        if ($record->perfil_usuario_id === 1 && $record->ativo) {
+            $otherActiveAdmins = UsuarioSistema::where('perfil_usuario_id', 1)
+                ->where('ativo', true)
+                ->where('id', '!=', $id)
+                ->count();
+
+            if ($otherActiveAdmins === 0) {
+                throw new \RuntimeException('Não é possível remover o único administrador ativo do sistema.');
+            }
+        }
+
         $old = $record->toArray();
         $record->update($data);
 
