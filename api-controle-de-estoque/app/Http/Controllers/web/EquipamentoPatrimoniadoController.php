@@ -14,6 +14,7 @@ use App\Services\MarcaEquipamentoService;
 use App\Services\TipoEquipamentoService;
 use App\Services\UnidadeOrganizacionalService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class EquipamentoPatrimoniadoController extends Controller
@@ -29,9 +30,26 @@ class EquipamentoPatrimoniadoController extends Controller
         private readonly ImagemUploadService $imagemUploadService,
     ) {}
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $equipamentos = $this->service->paginate(50);
+        $marcaId = $request->query('marca_id');
+        $tipoId = $request->query('tipo_id');
+        $condicaoId = $request->query('condicao_id');
+        $unidadeId = $request->query('unidade_id');
+        $localizacaoId = $request->query('localizacao_id');
+        $status = $request->query('status');
+        $search = $request->query('search');
+
+        $equipamentos = $this->service->filteredPaginate(
+            marcaId: $marcaId ? (int) $marcaId : null,
+            tipoId: $tipoId ? (int) $tipoId : null,
+            condicaoId: $condicaoId ? (int) $condicaoId : null,
+            unidadeId: $unidadeId ? (int) $unidadeId : null,
+            localizacaoId: $localizacaoId ? (int) $localizacaoId : null,
+            status: $status,
+            search: $search,
+        );
+
         $marcas = $this->marcaService->all();
         $tipos = $this->tipoService->all();
         $condicoes = $this->condicaoService->all();
@@ -40,7 +58,8 @@ class EquipamentoPatrimoniadoController extends Controller
         $unidades = $this->unidadeService->all();
 
         return view('equipamentos-patrimoniados.index', compact(
-            'equipamentos', 'marcas', 'tipos', 'condicoes', 'espacos', 'imagens', 'unidades'
+            'equipamentos', 'marcas', 'tipos', 'condicoes', 'espacos', 'imagens', 'unidades',
+            'marcaId', 'tipoId', 'condicaoId', 'unidadeId', 'localizacaoId', 'status', 'search'
         ));
     }
 

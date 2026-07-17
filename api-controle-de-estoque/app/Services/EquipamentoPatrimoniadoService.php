@@ -23,7 +23,58 @@ class EquipamentoPatrimoniadoService
 
     public function paginate(int $perPage = 50): LengthAwarePaginator
     {
-        return EquipamentoPatrimoniado::orderBy('created_at', 'desc')->paginate($perPage);
+        return EquipamentoPatrimoniado::with(['marcaEquipamento', 'tipoEquipamento', 'condicaoOperacionalEquipamento', 'espacoArmazenamento.unidadeOrganizacional'])
+            ->orderBy('created_at', 'desc')->paginate($perPage);
+    }
+
+    public function filteredPaginate(
+        ?int $marcaId = null,
+        ?int $tipoId = null,
+        ?int $condicaoId = null,
+        ?int $unidadeId = null,
+        ?int $localizacaoId = null,
+        ?string $status = null,
+        ?string $search = null,
+        int $perPage = 50,
+    ): LengthAwarePaginator {
+        $query = EquipamentoPatrimoniado::with(['marcaEquipamento', 'tipoEquipamento', 'condicaoOperacionalEquipamento', 'espacoArmazenamento.unidadeOrganizacional'])
+            ->orderBy('created_at', 'desc');
+
+        if ($marcaId) {
+            $query->where('marca_equipamento_id', $marcaId);
+        }
+
+        if ($tipoId) {
+            $query->where('tipo_equipamento_id', $tipoId);
+        }
+
+        if ($condicaoId) {
+            $query->where('condicao_operacional_equipamento_id', $condicaoId);
+        }
+
+        if ($unidadeId) {
+            $query->whereHas('espacoArmazenamento', fn ($q) => $q->where('unidade_organizacional_id', $unidadeId));
+        }
+
+        if ($localizacaoId) {
+            $query->where('espaco_armazenamento_id', $localizacaoId);
+        }
+
+        if ($status === 'informado') {
+            $query->where('informado_ao_patrimonio', true);
+        } elseif ($status === 'ativo') {
+            $query->where('informado_ao_patrimonio', false);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nome_equipamento', 'like', "%{$search}%")
+                    ->orWhere('numero_patrimonio', 'like', "%{$search}%")
+                    ->orWhere('numero_serie', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function find(int $id): ?EquipamentoPatrimoniado

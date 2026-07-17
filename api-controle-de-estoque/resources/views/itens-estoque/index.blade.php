@@ -9,7 +9,27 @@
 @if(!$isConsulta)
 <a class="fab" href="/itens-estoque/novo">Adicionar Item</a>
 @endif
-<x-tabela.cartao search="tbody-itens" count="{{ $itens->total() }} itens" searchPlaceholder="Buscar item…">
+<x-tabela.cartao search="" count="{{ $itens->total() }} itens">
+    <x-slot:toolbar>
+        <form class="filter-form" method="GET" action="/itens-estoque">
+            <input class="search-input filter-search" name="search" placeholder="Buscar item…" value="{{ $search ?? '' }}">
+            <select class="filter-select" name="unidade_id" onchange="this.form.submit()">
+                <option value="">Unidade</option>
+                @foreach($unidades as $unidade)
+                <option value="{{ $unidade->id }}" {{ ($unidadeId ?? '') == $unidade->id ? 'selected' : '' }}>{{ $unidade->nome }}</option>
+                @endforeach
+            </select>
+            <select class="filter-select" name="localizacao_id" onchange="this.form.submit()">
+                <option value="">Espaço de armazenamento</option>
+                @foreach($espacos as $espaco)
+                <option value="{{ $espaco->id }}" {{ ($localizacaoId ?? '') == $espaco->id ? 'selected' : '' }}>{{ $espaco->nome }}</option>
+                @endforeach
+            </select>
+            @if($unidadeId || $localizacaoId || $search)
+            <a class="filter-clear" href="/itens-estoque">Limpar</a>
+            @endif
+        </form>
+    </x-slot>
     <x-slot:header>
         <th>Item</th>
         <th>Unidade</th>
@@ -34,5 +54,5 @@
     </tr>
     @endforeach
 </x-tabela.cartao>
-{{ $itens->links() }}
+{{ $itens->appends(Request::only(['unidade_id', 'localizacao_id', 'search']))->links() }}
 @endsection

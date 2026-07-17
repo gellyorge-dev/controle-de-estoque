@@ -23,7 +23,35 @@ class ItemEstoqueService
 
     public function paginate(int $perPage = 50): LengthAwarePaginator
     {
-        return ItemEstoque::orderBy('created_at', 'desc')->paginate($perPage);
+        return ItemEstoque::with(['espacoArmazenamento.unidadeOrganizacional'])
+            ->orderBy('created_at', 'desc')->paginate($perPage);
+    }
+
+    public function filteredPaginate(
+        ?int $unidadeId = null,
+        ?int $localizacaoId = null,
+        ?string $search = null,
+        int $perPage = 50,
+    ): LengthAwarePaginator {
+        $query = ItemEstoque::with(['espacoArmazenamento.unidadeOrganizacional'])
+            ->orderBy('created_at', 'desc');
+
+        if ($unidadeId) {
+            $query->whereHas('espacoArmazenamento', fn ($q) => $q->where('unidade_organizacional_id', $unidadeId));
+        }
+
+        if ($localizacaoId) {
+            $query->where('espaco_armazenamento_id', $localizacaoId);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nome_item', 'like', "%{$search}%")
+                    ->orWhere('descricao_item', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function find(int $id): ?ItemEstoque

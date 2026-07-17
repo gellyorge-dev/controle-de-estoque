@@ -11,6 +11,7 @@ use App\Services\ImagemUploadService;
 use App\Services\ItemEstoqueService;
 use App\Services\UnidadeOrganizacionalService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ItemEstoqueController extends Controller
@@ -23,13 +24,26 @@ class ItemEstoqueController extends Controller
         private readonly ImagemUploadService $imagemUploadService,
     ) {}
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $itens = $this->service->paginate(50);
+        $unidadeId = $request->query('unidade_id');
+        $localizacaoId = $request->query('localizacao_id');
+        $search = $request->query('search');
+
+        $itens = $this->service->filteredPaginate(
+            unidadeId: $unidadeId ? (int) $unidadeId : null,
+            localizacaoId: $localizacaoId ? (int) $localizacaoId : null,
+            search: $search,
+        );
+
         $espacos = $this->espacoService->all();
         $imagens = $this->imagemService->all();
+        $unidades = $this->unidadeService->all();
 
-        return view('itens-estoque.index', compact('itens', 'espacos', 'imagens'));
+        return view('itens-estoque.index', compact(
+            'itens', 'espacos', 'imagens', 'unidades',
+            'unidadeId', 'localizacaoId', 'search'
+        ));
     }
 
     public function create(): View
