@@ -28,6 +28,7 @@ class UpdateEquipamentoPatrimoniadoRequest extends FormRequest
             'local_anterior' => ['nullable', 'string', 'max:255'],
             'destino' => ['nullable', 'string', 'max:255'],
             'observacoes_equipamento' => ['nullable', 'string'],
+            'arquivo' => ['nullable', 'file', 'image'],
         ];
     }
 }

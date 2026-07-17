@@ -11,10 +11,27 @@
 
 @section('content')
 <x-tabela.cartao search="false">
-    <form action="/equipamentos-patrimoniados{{ isset($equipamento) ? '/' . $equipamento->id : '' }}" method="POST">
+    <form action="/equipamentos-patrimoniados{{ isset($equipamento) ? '/' . $equipamento->id : '' }}" method="POST" enctype="multipart/form-data">
         @csrf
         @isset($equipamento) @method('PUT') @endisset
+        <div class="image-upload-wrap">
+            <div class="image-upload-box @if(isset($equipamento) && $equipamento->arquivoImagem) has-image @endif" onclick="document.getElementById('img-input').click()">
+                @if(isset($equipamento) && $equipamento->arquivoImagem)
+                <img id="preview-img" src="/imagens/patrimoniados/{{ $equipamento->id }}" alt="">
+                @else
+                <div class="placeholder" id="preview-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <span>Clique para adicionar imagem</span>
+                </div>
+                @endif
+                <div class="overlay">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <span>Alterar foto</span>
+                </div>
+            </div>
+        </div>
         <div style="padding:20px 24px;">
+            <input type="file" name="arquivo" id="img-input" accept="image/*" style="display:none" onchange="previewImagem(event)">
             <x-formulario.grade>
                 <x-formulario.campo label="Nome do equipamento" required>
                     <input type="text" name="nome_equipamento" required value="{{ old('nome_equipamento', $equipamento->nome_equipamento ?? '') }}" placeholder="Ex: Monitor Dell">
@@ -64,14 +81,6 @@
                 <x-formulario.campo label="Espaço de armazenamento" required>
                     <select name="espaco_armazenamento_id" id="espaco-select" required>
                         <option value="">Selecione a unidade primeiro</option>
-                    </select>
-                </x-formulario.campo>
-                <x-formulario.campo label="Arquivo de imagem">
-                    <select name="arquivo_imagem_id">
-                        <option value="">Nenhuma</option>
-                        @foreach($imagens as $imagem)
-                        <option value="{{ $imagem->id }}" {{ old('arquivo_imagem_id', $equipamento->arquivo_imagem_id ?? '') == $imagem->id ? 'selected' : '' }}>{{ $imagem->nome_arquivo }}</option>
-                        @endforeach
                     </select>
                 </x-formulario.campo>
 
@@ -136,5 +145,25 @@ function filtrarEspacos(){
 }
 document.getElementById('unidade-select').addEventListener('change', filtrarEspacos);
 if(document.getElementById('unidade-select').value) filtrarEspacos();
+
+function previewImagem(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        const box = document.querySelector('.image-upload-box');
+        box.classList.add('has-image');
+        const placeholder = document.getElementById('preview-placeholder');
+        let img = document.getElementById('preview-img');
+        if(!img){
+            img = document.createElement('img');
+            img.id = 'preview-img';
+            if(placeholder) placeholder.replaceWith(img);
+            else box.insertBefore(img, box.querySelector('.overlay'));
+        }
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 </script>
 @endsection

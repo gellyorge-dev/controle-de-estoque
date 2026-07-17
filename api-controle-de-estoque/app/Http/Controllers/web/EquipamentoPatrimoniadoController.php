@@ -9,6 +9,7 @@ use App\Services\ArquivoImagemService;
 use App\Services\CondicaoOperacionalEquipamentoService;
 use App\Services\EquipamentoPatrimoniadoService;
 use App\Services\EspacoArmazenamentoService;
+use App\Services\ImagemUploadService;
 use App\Services\MarcaEquipamentoService;
 use App\Services\TipoEquipamentoService;
 use App\Services\UnidadeOrganizacionalService;
@@ -25,6 +26,7 @@ class EquipamentoPatrimoniadoController extends Controller
         private readonly EspacoArmazenamentoService $espacoService,
         private readonly ArquivoImagemService $imagemService,
         private readonly UnidadeOrganizacionalService $unidadeService,
+        private readonly ImagemUploadService $imagemUploadService,
     ) {}
 
     public function index(): View
@@ -73,20 +75,36 @@ class EquipamentoPatrimoniadoController extends Controller
 
     public function store(StoreEquipamentoPatrimoniadoRequest $request): RedirectResponse
     {
-        $this->service->create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('arquivo')) {
+            $equipamento = $this->service->create($data);
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'patrimoniados', $equipamento->id);
+            $equipamento->update(['arquivo_imagem_id' => $imagem->id]);
+        } else {
+            $this->service->create($data);
+        }
 
         return redirect()->route('equipamentos-patrimoniados.index');
     }
 
     public function update(UpdateEquipamentoPatrimoniadoRequest $request, int $id): RedirectResponse
     {
-        $this->service->update($id, $request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('arquivo')) {
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'patrimoniados', $id);
+            $data['arquivo_imagem_id'] = $imagem->id;
+        }
+
+        $this->service->update($id, $data);
 
         return redirect()->route('equipamentos-patrimoniados.index');
     }
 
     public function destroy(int $id): RedirectResponse
     {
+        $this->imagemUploadService->delete('patrimoniados', $id);
         $this->service->delete($id);
 
         return redirect()->route('equipamentos-patrimoniados.index');

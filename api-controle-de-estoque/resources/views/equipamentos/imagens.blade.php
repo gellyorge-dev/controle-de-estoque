@@ -33,7 +33,7 @@
         <td class="cell-sub" style="font-family: var(--font-mono);" data-label="ID">#{{ $imagem->id }}</td>
         <td data-label="Arquivo">
             <div style="display:flex; align-items:center; gap:12px;">
-                <img src="{{ $imagem->caminho }}" alt="{{ $imagem->nome_arquivo }}"
+                <img src="{{ $imagem->tipo && $imagem->entidade_id ? url("/imagens/{$imagem->tipo}/{$imagem->entidade_id}") : $imagem->caminho }}" alt="{{ $imagem->nome_arquivo }}"
                      style="width:70px; height:70px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
                 <div>
                     <div class="cell-primary">{{ $imagem->nome_arquivo }}</div>

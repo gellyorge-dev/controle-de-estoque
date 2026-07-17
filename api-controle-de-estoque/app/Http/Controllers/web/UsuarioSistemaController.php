@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUsuarioSistemaRequest;
 use App\Http\Requests\UpdateUsuarioSistemaRequest;
 use App\Models\UsuarioSistema;
 use App\Services\ArquivoImagemService;
+use App\Services\ImagemUploadService;
 use App\Services\PerfilUsuarioService;
 use App\Services\UsuarioSistemaService;
 use Illuminate\Database\QueryException;
@@ -22,6 +23,7 @@ class UsuarioSistemaController extends Controller
         private readonly UsuarioSistemaService $service,
         private readonly PerfilUsuarioService $perfilService,
         private readonly ArquivoImagemService $imagemService,
+        private readonly ImagemUploadService $imagemUploadService,
     ) {}
 
     public function index(): View
@@ -60,7 +62,14 @@ class UsuarioSistemaController extends Controller
     {
         $data = $request->validated();
         $data['senha_usuario'] = bcrypt($data['senha_usuario']);
-        $this->service->create($data);
+
+        if ($request->hasFile('arquivo')) {
+            $usuario = $this->service->create($data);
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'perfil', $usuario->id);
+            $usuario->update(['arquivo_imagem_id' => $imagem->id]);
+        } else {
+            $this->service->create($data);
+        }
 
         return redirect()->route('usuarios-sistema.index');
     }
@@ -83,6 +92,11 @@ class UsuarioSistemaController extends Controller
             if ($erro) {
                 return redirect()->route('usuarios-sistema.edit', $id)->with('error', $erro);
             }
+        }
+
+        if ($request->hasFile('arquivo')) {
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'perfil', $id);
+            $data['arquivo_imagem_id'] = $imagem->id;
         }
 
         $this->service->update($id, $data);
@@ -114,6 +128,7 @@ class UsuarioSistemaController extends Controller
         }
 
         try {
+            $this->imagemUploadService->delete('perfil', $id);
             $this->service->delete($id);
         } catch (QueryException $e) {
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
@@ -132,6 +147,7 @@ class UsuarioSistemaController extends Controller
 
         $rules = [
             'senha_usuario' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'arquivo' => ['nullable', 'file', 'image'],
         ];
 
         if ($usuario->perfil_usuario_id === 1) {
@@ -140,6 +156,11 @@ class UsuarioSistemaController extends Controller
         }
 
         $data = $request->validate($rules);
+
+        if ($request->hasFile('arquivo')) {
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'perfil', $usuario->id);
+            $data['arquivo_imagem_id'] = $imagem->id;
+        }
 
         if (! empty($data['senha_usuario'])) {
             $data['senha_usuario'] = bcrypt($data['senha_usuario']);

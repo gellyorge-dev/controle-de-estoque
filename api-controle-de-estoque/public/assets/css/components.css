@@ -248,7 +248,12 @@ tbody tr:hover{
     font-size: 10px;
   }
 
-  /* ---------- Tabela vira lista de cartões ---------- */
+  tbody td{
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  /* ---------- Tabela vira lista de cartões, sem rolagem lateral ---------- */
   .table-card{
     overflow-x: visible;
   }
@@ -274,7 +279,7 @@ tbody tr:hover{
   .table-card tbody tr{
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    margin: 12px 0;
+    margin: 8px 6px;
     box-shadow: var(--shadow-sm);
     overflow: hidden;
   }
@@ -285,15 +290,14 @@ tbody tr:hover{
 
   .table-card tbody td{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
     text-align: right;
-    padding: 10px 14px;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--border);
     overflow-wrap: break-word;
     word-break: break-word;
-    font-size: 13px;
   }
 
   .table-card tbody td:last-child{
@@ -312,37 +316,13 @@ tbody tr:hover{
     max-width: 40%;
   }
 
-  .table-card tbody td[data-label=""]{
+  .table-card tbody td:not([data-label]){
     justify-content: center;
   }
 
-  .table-card tbody td[data-label=""]::before{
-    display: none;
-  }
-
-  .table-card tbody td[data-label="Ações"]{
-    display: block;
-    text-align: center;
-    padding: 6px 14px;
-  }
-
-  .table-card tbody td[data-label="Ações"]::before{
-    display: none;
-  }
-
-  .table-card tbody td[data-label="Ações"] .cell-actions{
+  .table-card tbody td:not([data-label]) .cell-actions{
     justify-content: center;
     width: 100%;
-  }
-
-  .table-card tbody td.cell-primary{
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .table-card tbody td.cell-sub{
-    font-size: 12px;
-    color: var(--ink-faint);
   }
 
 }
@@ -666,5 +646,121 @@ tbody tr:hover{
 }
 .delete-form{
   margin:0;
+}
+
+/* ---------- Image Upload Preview ---------- */
+.image-upload-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:12px 24px 8px;
+  border-bottom:1px solid var(--border);
+}
+
+.image-upload-box{
+  position:relative;
+  width:60%;
+  aspect-ratio:1;
+  max-width:450px;
+  min-width:300px;
+  border-radius:var(--radius);
+  border:2px dashed var(--border);
+  background:var(--surface-alt);
+  overflow:hidden;
+  cursor:pointer;
+  transition:border-color .2s, background .2s, box-shadow .2s;
+  flex-shrink:0;
+}
+
+.image-upload-box:hover{
+  border-color:var(--accent-2);
+  background:var(--accent-soft);
+  box-shadow:0 0 0 4px var(--accent-soft);
+}
+
+.image-upload-box.has-image{
+  border-style:solid;
+  border-color:var(--border-strong);
+  box-shadow:var(--shadow-sm);
+}
+
+.image-upload-box.has-image:hover{
+  box-shadow:0 0 0 4px var(--accent-soft), var(--shadow);
+}
+
+.image-upload-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.image-upload-box .placeholder{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  gap:8px;
+  color:var(--ink-faint);
+  font-size:12.5px;
+  font-weight:500;
+  text-align:center;
+  padding:20px;
+  line-height:1.4;
+}
+
+.image-upload-box .placeholder svg{
+  width:36px;
+  height:36px;
+  opacity:.4;
+}
+
+.image-upload-box .overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  opacity:0;
+  transition:opacity .2s;
+  backdrop-filter:blur(2px);
+}
+
+.image-upload-box:hover .overlay{
+  opacity:1;
+}
+
+.image-upload-box.rounded,
+.image-upload-box.rounded img{
+  border-radius:50%;
+}
+
+.image-upload-box.rounded .overlay{
+  border-radius:50%;
+}
+
+.image-upload-hint{
+  font-size:11px;
+  color:var(--ink-faint);
+  margin-top:8px;
+  text-align:center;
+}
+
+@media(max-width:520px){
+  .image-upload-box{
+    width:75%;
+    max-width:300px;
+    min-width:200px;
+  }
+  .image-upload-wrap{
+    padding:8px 16px 4px;
+  }
 }
 

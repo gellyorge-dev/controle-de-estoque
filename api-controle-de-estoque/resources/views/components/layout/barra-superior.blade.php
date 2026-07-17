@@ -6,6 +6,9 @@
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
         <div class="topbar-user" onclick="window.location.href='/perfil-usuario'" style="cursor:pointer;">
+            @if(Auth::user()?->arquivoImagem)
+            <img class="topbar-avatar" src="/imagens/perfil/{{ Auth::user()->id }}" alt="">
+            @endif
             <span>{{ Auth::user()?->nome_usuario }}</span>
         </div>
         <form action="/logout" method="POST" style="margin:0;">

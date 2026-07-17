@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\CondicaoOperacionalEquipamentoController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\EquipamentoPatrimoniadoController;
 use App\Http\Controllers\Web\EspacoArmazenamentoController;
+use App\Http\Controllers\Web\ImagemUploadController;
 use App\Http\Controllers\Web\ItemEstoqueController;
 use App\Http\Controllers\Web\MarcaEquipamentoController;
 use App\Http\Controllers\Web\RegistroAuditoriaController;
@@ -28,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::redirect('/', '/equipamentos-patrimoniados');
 
     Route::get('/registros-auditoria', [RegistroAuditoriaController::class, 'index']);
+
+    Route::post('/imagens/{tipo}/{entidadeId}', [ImagemUploadController::class, 'upload']);
+    Route::delete('/imagens/{tipo}/{entidadeId}', [ImagemUploadController::class, 'delete']);
+    Route::get('/imagens/{tipo}/{entidadeId}', [ImagemUploadController::class, 'servir']);
 
     // === ADMIN + OPERADOR + CONSULTA (read-only) ===
     Route::middleware('is.administrador:administrador,operador,consulta')->group(function () {

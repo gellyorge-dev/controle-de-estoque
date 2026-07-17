@@ -68,6 +68,18 @@
   background-image: linear-gradient(135deg, var(--accent-2), var(--accent));
 }
 
+.topbar-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+  flex-shrink:0;
+}
+
+.topbar-user:has(.topbar-avatar)::before{
+  display:none;
+}
+
 /* ---------- Conteúdo ---------- */
 .content{
   padding: 28px;
@@ -143,53 +155,9 @@
   color: var(--ink-soft);
 }
 
-/* ---------- Dashboard stat boxes ---------- */
-.dashboard-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.stat-box{
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  text-align: center;
-}
-.stat-label{
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink-faint);
-  text-transform: uppercase;
-  letter-spacing: .04em;
-}
-.stat-value{
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--accent);
-  line-height: 1;
-}
-
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px){
   .content{
     padding: 14px;
-  }
-}
-
-@media (max-width: 640px){
-  .dashboard-grid{
-    grid-template-columns: 1fr;
-  }
-
-  .stat-box{
-    padding: 14px;
-  }
-
-  .stat-value{
-    font-size: 1.5rem;
   }
 }

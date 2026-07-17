@@ -23,9 +23,26 @@
     <div class="table-toolbar">
         <h2>Meus dados</h2>
     </div>
-    <form action="/perfil-usuario" method="POST" onsubmit="return validarSenha(event)">
+    <form action="/perfil-usuario" method="POST" enctype="multipart/form-data" onsubmit="return validarSenha(event)">
         @csrf
         @method('PUT')
+        <div class="image-upload-wrap">
+            <div class="image-upload-box rounded @if($usuario->arquivoImagem) has-image @endif" onclick="document.getElementById('img-input').click()">
+                @if($usuario->arquivoImagem)
+                <img id="preview-img" src="/imagens/perfil/{{ $usuario->id }}" alt="">
+                @else
+                <div class="placeholder" id="preview-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Clique para adicionar foto</span>
+                </div>
+                @endif
+                <div class="overlay">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <span>Alterar foto</span>
+                </div>
+            </div>
+        </div>
+        <input type="file" name="arquivo" id="img-input" accept="image/*" style="display:none" onchange="previewImagem(event)">
         <div class="perfil-body">
             <div class="perfil-grid">
                 @if(Auth::user()?->perfil_usuario_id === 1)
@@ -157,5 +174,25 @@ function validarSenha(e){
     senha.addEventListener('input',verificar);
     confirm.addEventListener('input',verificar);
 })();
+
+function previewImagem(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        const box = document.querySelector('.image-upload-box');
+        box.classList.add('has-image');
+        const placeholder = document.getElementById('preview-placeholder');
+        let img = document.getElementById('preview-img');
+        if(!img){
+            img = document.createElement('img');
+            img.id = 'preview-img';
+            if(placeholder) placeholder.replaceWith(img);
+            else box.insertBefore(img, box.querySelector('.overlay'));
+        }
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 </script>
 @endsection

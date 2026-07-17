@@ -7,6 +7,7 @@ use App\Http\Requests\StoreItemEstoqueRequest;
 use App\Http\Requests\UpdateItemEstoqueRequest;
 use App\Services\ArquivoImagemService;
 use App\Services\EspacoArmazenamentoService;
+use App\Services\ImagemUploadService;
 use App\Services\ItemEstoqueService;
 use App\Services\UnidadeOrganizacionalService;
 use Illuminate\Http\RedirectResponse;
@@ -19,6 +20,7 @@ class ItemEstoqueController extends Controller
         private readonly EspacoArmazenamentoService $espacoService,
         private readonly ArquivoImagemService $imagemService,
         private readonly UnidadeOrganizacionalService $unidadeService,
+        private readonly ImagemUploadService $imagemUploadService,
     ) {}
 
     public function index(): View
@@ -51,20 +53,36 @@ class ItemEstoqueController extends Controller
 
     public function store(StoreItemEstoqueRequest $request): RedirectResponse
     {
-        $this->service->create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('arquivo')) {
+            $item = $this->service->create($data);
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'estoque', $item->id);
+            $item->update(['arquivo_imagem_id' => $imagem->id]);
+        } else {
+            $this->service->create($data);
+        }
 
         return redirect()->route('itens-estoque.index');
     }
 
     public function update(UpdateItemEstoqueRequest $request, int $id): RedirectResponse
     {
-        $this->service->update($id, $request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('arquivo')) {
+            $imagem = $this->imagemUploadService->upload($request->file('arquivo'), 'estoque', $id);
+            $data['arquivo_imagem_id'] = $imagem->id;
+        }
+
+        $this->service->update($id, $data);
 
         return redirect()->route('itens-estoque.index');
     }
 
     public function destroy(int $id): RedirectResponse
     {
+        $this->imagemUploadService->delete('estoque', $id);
         $this->service->delete($id);
 
         return redirect()->route('itens-estoque.index');

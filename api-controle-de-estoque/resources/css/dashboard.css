@@ -68,6 +68,18 @@
   background-image: linear-gradient(135deg, var(--accent-2), var(--accent));
 }
 
+.topbar-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  object-fit:cover;
+  flex-shrink:0;
+}
+
+.topbar-user:has(.topbar-avatar)::before{
+  display:none;
+}
+
 /* ---------- Conteúdo ---------- */
 .content{
   padding: 28px;

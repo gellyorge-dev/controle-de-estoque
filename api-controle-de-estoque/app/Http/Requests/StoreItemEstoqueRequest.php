@@ -20,6 +20,7 @@ class StoreItemEstoqueRequest extends FormRequest
             'descricao_item' => ['nullable', 'string'],
             'quantidade' => ['required', 'integer', 'min:0'],
             'observacoes_item' => ['nullable', 'string'],
+            'arquivo' => ['nullable', 'file', 'image'],
         ];
     }
 }
