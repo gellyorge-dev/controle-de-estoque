@@ -12,6 +12,10 @@ class EquipamentoPatrimoniadoService
 {
     use RecordsAudit;
 
+    public function __construct(
+        private readonly ImagemUploadService $imagemUploadService,
+    ) {}
+
     public function all(): Collection
     {
         return EquipamentoPatrimoniado::all();
@@ -129,6 +133,13 @@ class EquipamentoPatrimoniadoService
     public function delete(int $id): bool
     {
         $record = $this->findOrFail($id);
+
+        if ($record->arquivo_imagem_id) {
+            $record->arquivo_imagem_id = null;
+            $record->save();
+        }
+
+        $this->imagemUploadService->delete('patrimoniados', $id);
 
         $this->recordAudit('delete', $record, $record->toArray());
 

@@ -96,7 +96,6 @@ class ItemEstoqueController extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        $this->imagemUploadService->delete('estoque', $id);
         $this->service->delete($id);
 
         return redirect()->route('itens-estoque.index');

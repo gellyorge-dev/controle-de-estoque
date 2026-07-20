@@ -123,7 +123,6 @@ class EquipamentoPatrimoniadoController extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        $this->imagemUploadService->delete('patrimoniados', $id);
         $this->service->delete($id);
 
         return redirect()->route('equipamentos-patrimoniados.index');

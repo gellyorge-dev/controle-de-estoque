@@ -11,6 +11,10 @@ class ItemEstoqueService
 {
     use RecordsAudit;
 
+    public function __construct(
+        private readonly ImagemUploadService $imagemUploadService,
+    ) {}
+
     public function all(): Collection
     {
         return ItemEstoque::all();
@@ -87,6 +91,13 @@ class ItemEstoqueService
     public function delete(int $id): bool
     {
         $record = $this->findOrFail($id);
+
+        if ($record->arquivo_imagem_id) {
+            $record->arquivo_imagem_id = null;
+            $record->save();
+        }
+
+        $this->imagemUploadService->delete('estoque', $id);
 
         $this->recordAudit('delete', $record, $record->toArray());
 
