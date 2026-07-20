@@ -11,11 +11,6 @@
             @if(Auth::user()?->arquivoImagem)
             <img class="topbar-avatar" src="/imagens/perfil/{{ Auth::user()->id }}" alt="">
             @endif
-            <span>{{ Auth::user()?->nome_usuario }}</span>
         </div>
-        <form action="/logout" method="POST" style="margin:0;">
-            @csrf
-            <button class="btn btn-sm btn-ghost" type="submit" style="color:var(--ink-faint);">Sair</button>
-        </form>
     </div>
 </header>

@@ -41,6 +41,12 @@
         <div class="nav-group-label">Conta</div>
         <ul class="nav-list">
             <li><a class="nav-link @if($activePrefix === 'perfil-usuario') active @endif" href="/perfil-usuario"><span class="dot"></span>Meu Perfil</a></li>
+            <li>
+                <form action="/logout" method="POST" style="margin:0;padding:0;">
+                    @csrf
+                    <button class="nav-link" type="submit" style="background:none;border:none;cursor:pointer;width:100%;text-align:left;font:inherit;"><span class="dot"></span>Sair</button>
+                </form>
+            </li>
         </ul>
     </div>
 </aside>

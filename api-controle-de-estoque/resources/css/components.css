@@ -264,6 +264,7 @@ tbody tr:hover{
     font-size: 12px;
   }
 
+
   /* ---------- Tabela vira lista de cartões, sem rolagem lateral ---------- */
   .table-card{
     overflow-x: visible;
@@ -553,7 +554,11 @@ tbody tr:hover{
   font-size: 13px;
   color: var(--ink);
 }
-.form-valor-hint{ color:var(--ink-faint); font-size:12px; }
+.form-valor-hint{ 
+  color:var(--ink-faint); 
+  font-size:12px;
+}
+
 .form-field input[type="file"]{
   padding: 8px;
   background: var(--surface-alt);
@@ -629,17 +634,17 @@ tbody tr:hover{
 }
 
 /* ---------- Filter Form ---------- */
+
+@media (max-width: 768px) {
+  
 .filter-form{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex:1;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px
 }
 
 .filter-search{
-  flex:1;
-  min-width:180px;
+  grid-column: 1 / -1;
 }
 
 .filter-select{
@@ -652,6 +657,7 @@ tbody tr:hover{
   cursor:pointer;
   transition:border-color var(--transition), background var(--transition);
   min-width:120px;
+  width: 100%;
 }
 
 .filter-select:hover{
@@ -679,6 +685,7 @@ tbody tr:hover{
   background:var(--accent-soft);
 }
 
+}
 /* ---------- Responsivo ---------- */
 @media (max-width: 640px){
   .form-grid{
@@ -833,4 +840,3 @@ tbody tr:hover{
     padding:8px 16px 4px;
   }
 }
-

@@ -2,6 +2,14 @@ function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('open');
 }
 
+document.addEventListener('click', function (e) {
+    var sidebar = document.querySelector('.sidebar');
+    if (!sidebar.classList.contains('open')) return;
+    if (sidebar.contains(e.target)) return;
+    if (e.target.closest('.menu-toggle')) return;
+    sidebar.classList.remove('open');
+});
+
 function filterTable(input, tbodyId) {
     const filter = input.value.toLowerCase();
     const tbody = document.getElementById(tbodyId);

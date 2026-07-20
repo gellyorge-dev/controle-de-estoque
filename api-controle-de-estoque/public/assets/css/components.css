@@ -252,92 +252,6 @@ tbody tr:hover{
   min-width: 700px;
 }
 
-@media (max-width: 768px){
-
-  thead th{
-    padding: 10px 12px;
-    font-size: 10px;
-  }
-
-  tbody td{
-    padding: 12px;
-    font-size: 12px;
-  }
-
-  /* ---------- Tabela vira lista de cartões, sem rolagem lateral ---------- */
-  .table-card{
-    overflow-x: visible;
-  }
-
-  .table-card table{
-    min-width: 0;
-    width: 100%;
-  }
-
-  .table-card thead{
-    display: none;
-  }
-
-  .table-card table, .table-card tbody, .table-card td{
-    display: block;
-    width: 100%;
-  }
-
-  .table-card tr{
-    display: block;
-  }
-
-  .table-card tbody tr{
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    margin: 8px 6px;
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-  }
-
-  .table-card tbody tr:hover{
-    background: transparent;
-  }
-
-  .table-card tbody td{
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-    text-align: right;
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-
-  .table-card tbody td:last-child{
-    border-bottom: none;
-  }
-
-  .table-card tbody td::before{
-    content: attr(data-label);
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    color: var(--ink-faint);
-    text-align: left;
-    flex-shrink: 0;
-    max-width: 40%;
-  }
-
-  .table-card tbody td:not([data-label]){
-    justify-content: center;
-  }
-
-  .table-card tbody td:not([data-label]) .cell-actions{
-    justify-content: center;
-    width: 100%;
-  }
-
-}
-
 /* ---------- Badges ---------- */
 .badge{
   display: inline-flex;
@@ -832,5 +746,109 @@ tbody tr:hover{
   .image-upload-wrap{
     padding:8px 16px 4px;
   }
+}
+
+@media (max-width: 768px){
+
+  .topbar-left .topbar-back{
+    display: none;
+  }
+
+  .table-toolbar .form-hint{
+    width: 100%;
+  }
+
+  thead th{
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+
+  tbody td{
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .table-card{
+    overflow-x: visible;
+  }
+
+  .table-card table{
+    min-width: 0;
+    width: 100%;
+  }
+
+  .table-card thead{
+    display: none;
+  }
+
+  .table-card table, .table-card tbody, .table-card td{
+    display: block;
+    width: 100%;
+  }
+
+  .table-card tr{
+    display: block;
+  }
+
+  .table-card tbody tr{
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin: 8px 6px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .table-card tbody tr:hover{
+    background: transparent;
+  }
+
+  .table-card tbody td{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    text-align: right;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .table-card tbody td:last-child{
+    border-bottom: none;
+  }
+
+  .table-card tbody td::before{
+    content: attr(data-label);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--ink-faint);
+    text-align: left;
+    flex-shrink: 0;
+    max-width: 40%;
+  }
+
+  .table-card tbody td:not([data-label]){
+    justify-content: center;
+  }
+
+  .table-card tbody td:not([data-label]) .cell-actions{
+    justify-content: center;
+    width: 100%;
+  }
+
+  .filter-form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .filter-form .filter-search{
+    grid-column: 1 / -1;
+  }
+
 }
 

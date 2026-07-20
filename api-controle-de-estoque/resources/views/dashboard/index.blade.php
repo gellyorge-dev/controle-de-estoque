@@ -47,6 +47,7 @@
                 <div class="pie-legend-item">
                     <span class="pie-dot" style="background:{{ $item['color'] }}"></span>
                     <span class="pie-legend-label">{{ $item['label'] }}</span>
+                    <span className="legend-value">{{ $item['value'] }}</span>
                     <span class="pie-legend-pct">{{ $pct }}%</span>
                 </div>
                 @endforeach

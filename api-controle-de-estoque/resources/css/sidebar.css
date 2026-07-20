@@ -118,6 +118,9 @@
 
 @media (max-width: 768px) {
 
+    .topbar-title{
+     font-size: 10px;
+  }
     .menu-toggle {
         display: inline-flex;
         align-items: center;
