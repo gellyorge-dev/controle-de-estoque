@@ -56,20 +56,22 @@ Sistema de login com sessão via banco de dados. Logout com invalidação de ses
 ## Estrutura do Projeto
 
 ```
-app/
-├── Http/
-│   ├── Controllers/Web/   # Controladores web
-│   └── Requests/          # Form requests com validação
-├── Models/                # Modelos Eloquent
-└── Services/              # Camada de serviços com lógica de negócio
-database/
-├── migrations/            # Migrações do schema
-└── seeders/               # Seeds para dados iniciais
-resources/
-└── views/                 # Templates Blade
-routes/
-├── web.php                # Rotas web
-└── api.php                # Rotas de API
+gestock/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/Web/   # Controladores web
+│   │   └── Requests/          # Form requests com validação
+│   ├── Models/                # Modelos Eloquent
+│   └── Services/              # Camada de serviços com lógica de negócio
+├── database/
+│   ├── migrations/            # Migrações do schema
+│   └── seeders/               # Seeds para dados iniciais
+├── resources/
+│   └── views/                 # Templates Blade
+├── routes/
+│   ├── web.php                # Rotas web
+│   └── api.php                # Rotas de API
+└── ImagensUpload/             # Diretório de uploads
 ```
 
 ## Modelo de Dados
@@ -89,6 +91,9 @@ routes/
 ## Instalação
 
 ```bash
+# Acessar o diretório do projeto
+cd gestock
+
 # Instalar dependências PHP
 composer install
 
