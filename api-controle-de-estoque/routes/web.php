@@ -26,6 +26,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('is.administrador:administrador');
 
+    Route::prefix('dashboard/exportar')->middleware('is.administrador:administrador')->group(function () {
+        Route::get('/resumo', [DashboardController::class, 'exportResumo']);
+        Route::get('/equipamentos', [DashboardController::class, 'exportEquipamentos']);
+        Route::get('/itens-estoque', [DashboardController::class, 'exportItensEstoque']);
+    });
+
     Route::redirect('/', '/equipamentos-patrimoniados');
 
     Route::get('/registros-auditoria', [RegistroAuditoriaController::class, 'index']);

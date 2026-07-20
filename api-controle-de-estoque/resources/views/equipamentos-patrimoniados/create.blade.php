@@ -113,7 +113,7 @@
                     <input type="text" name="nome_equipamento" required value="{{ old('nome_equipamento', $equipamento->nome_equipamento ?? '') }}" placeholder="Ex: Monitor Dell">
                 </x-formulario.campo>
                 <x-formulario.campo label="Nº de patrimônio" required>
-                    <input type="number" name="numero_patrimonio" required value="{{ old('numero_patrimonio', $equipamento->numero_patrimonio ?? '') }}" placeholder="Ex: 30302">
+                    <input type="number" name="numero_patrimonio" required min="1" value="{{ old('numero_patrimonio', $equipamento->numero_patrimonio ?? '') }}" placeholder="Ex: 30302">
                 </x-formulario.campo>
 
                 <x-formulario.campo label="Nº de série">

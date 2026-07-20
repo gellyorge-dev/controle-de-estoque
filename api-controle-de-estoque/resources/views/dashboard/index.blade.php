@@ -29,7 +29,10 @@
 
 @section('content')
 <div class="table-card">
-    <div class="table-toolbar"><h2>Resumo do Sistema</h2></div>
+    <div class="table-toolbar">
+        <h2>Resumo do Sistema</h2>
+        <x-botao href="/dashboard/exportar/resumo" variant="primary" size="sm">Exportar CSV</x-botao>
+    </div>
     <div style="padding:24px;">
         <div class="pie-wrap">
             <div class="pie" style="background:{{ $gradient }}">
@@ -48,6 +51,24 @@
                 </div>
                 @endforeach
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-card">
+    <div class="table-toolbar"><h2>Exportar Dados</h2></div>
+    <div style="padding:24px;">
+        <div class="card-grid">
+            <a href="/dashboard/exportar/equipamentos" class="entity-card">
+                <div class="icon-dot">E</div>
+                <h3>Equipamentos Patrimoniados</h3>
+                <p>Exportar todos os equipamentos cadastrados em CSV</p>
+            </a>
+            <a href="/dashboard/exportar/itens-estoque" class="entity-card">
+                <div class="icon-dot">I</div>
+                <h3>Itens de Estoque</h3>
+                <p>Exportar todos os itens de estoque cadastrados em CSV</p>
+            </a>
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@ class UpdateEquipamentoPatrimoniadoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero_patrimonio' => ['required', 'integer', Rule::unique('equip_patrim', 'numero_patrimonio')->ignore($this->route('id'))],
+            'numero_patrimonio' => ['required', 'integer', 'min:1', Rule::unique('equip_patrim', 'numero_patrimonio')->ignore($this->route('id'))],
             'numero_serie' => ['nullable', 'string', 'max:150'],
             'espaco_armazenamento_id' => ['required', 'exists:espaco_arm,id'],
             'marca_equipamento_id' => ['nullable', 'exists:marca_eqp,id'],

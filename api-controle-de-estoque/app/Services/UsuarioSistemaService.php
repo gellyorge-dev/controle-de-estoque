@@ -33,6 +33,8 @@ class UsuarioSistemaService
 
     public function create(array $data): UsuarioSistema
     {
+        $data['ativo'] = $data['ativo'] ?? false;
+
         $record = UsuarioSistema::create($data);
 
         $this->recordAudit('create', $record, null, $data);
@@ -44,8 +46,10 @@ class UsuarioSistemaService
     {
         $record = $this->findOrFail($id);
 
+        $data['ativo'] = $data['ativo'] ?? false;
+
         $wouldBeAdmin = (array_key_exists('perfil_usuario_id', $data) ? $data['perfil_usuario_id'] : $record->perfil_usuario_id) === 1;
-        $wouldBeActive = array_key_exists('ativo', $data) ? $data['ativo'] : $record->ativo;
+        $wouldBeActive = $data['ativo'];
 
         if ($wouldBeAdmin && $wouldBeActive) {
             $old = $record->toArray();

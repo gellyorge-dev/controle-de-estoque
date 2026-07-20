@@ -6,6 +6,7 @@ use App\Models\EquipamentoPatrimoniado;
 use App\Services\Traits\RecordsAudit;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 
 class EquipamentoPatrimoniadoService
 {
@@ -89,6 +90,10 @@ class EquipamentoPatrimoniadoService
 
     public function create(array $data): EquipamentoPatrimoniado
     {
+        $this->validatePatrimonio($data);
+
+        $data['informado_ao_patrimonio'] = $data['informado_ao_patrimonio'] ?? false;
+
         $record = EquipamentoPatrimoniado::create($data);
 
         $this->recordAudit('create', $record, null, $data);
@@ -100,11 +105,25 @@ class EquipamentoPatrimoniadoService
     {
         $record = $this->findOrFail($id);
         $old = $record->toArray();
+
+        $this->validatePatrimonio($data);
+
+        $data['informado_ao_patrimonio'] = $data['informado_ao_patrimonio'] ?? false;
+
         $record->update($data);
 
         $this->recordAudit('update', $record, $old, $data);
 
         return $record->fresh();
+    }
+
+    private function validatePatrimonio(array $data): void
+    {
+        if (isset($data['numero_patrimonio']) && $data['numero_patrimonio'] < 1) {
+            throw ValidationException::withMessages([
+                'numero_patrimonio' => 'O número de patrimônio não pode ser negativo ou zero.',
+            ]);
+        }
     }
 
     public function delete(int $id): bool
