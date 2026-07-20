@@ -46,28 +46,19 @@ class UsuarioSistemaService
     {
         $record = $this->findOrFail($id);
 
-        $data['ativo'] = $data['ativo'] ?? false;
+        if (array_key_exists('ativo', $data)) {
+            $wouldBeAdmin = (array_key_exists('perfil_usuario_id', $data) ? $data['perfil_usuario_id'] : $record->perfil_usuario_id) === 1;
+            $wouldBeActive = $data['ativo'];
 
-        $wouldBeAdmin = (array_key_exists('perfil_usuario_id', $data) ? $data['perfil_usuario_id'] : $record->perfil_usuario_id) === 1;
-        $wouldBeActive = $data['ativo'];
+            if (! ($wouldBeAdmin && $wouldBeActive) && $record->perfil_usuario_id === 1 && $record->ativo) {
+                $otherActiveAdmins = UsuarioSistema::where('perfil_usuario_id', 1)
+                    ->where('ativo', true)
+                    ->where('id', '!=', $id)
+                    ->count();
 
-        if ($wouldBeAdmin && $wouldBeActive) {
-            $old = $record->toArray();
-            $record->update($data);
-
-            $this->recordAudit('update', $record, $old, $data);
-
-            return $record->fresh();
-        }
-
-        if ($record->perfil_usuario_id === 1 && $record->ativo) {
-            $otherActiveAdmins = UsuarioSistema::where('perfil_usuario_id', 1)
-                ->where('ativo', true)
-                ->where('id', '!=', $id)
-                ->count();
-
-            if ($otherActiveAdmins === 0) {
-                throw new \RuntimeException('Não é possível remover o único administrador ativo do sistema.');
+                if ($otherActiveAdmins === 0) {
+                    throw new \RuntimeException('Não é possível remover o único administrador ativo do sistema.');
+                }
             }
         }
 
