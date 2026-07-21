@@ -61,7 +61,6 @@ class DashboardController extends Controller
 
         $headers = [
             'Nº Patrimônio',
-            'Nome',
             'Nº Série',
             'Marca',
             'Tipo',
@@ -69,15 +68,13 @@ class DashboardController extends Controller
             'Unidade',
             'Espaço',
             'Informado ao Patrimônio',
-            'Local Anterior',
-            'Destino',
+            'Ativo',
             'Observações',
             'Criado em',
         ];
 
         $data = $equipamentos->map(fn ($e) => [
             $e->numero_patrimonio,
-            $e->nome_equipamento,
             $e->numero_serie,
             $e->marcaEquipamento?->nome,
             $e->tipoEquipamento?->nome,
@@ -85,8 +82,7 @@ class DashboardController extends Controller
             $e->espacoArmazenamento?->unidadeOrganizacional?->nome,
             $e->espacoArmazenamento?->nome,
             $e->informado_ao_patrimonio ? 'Sim' : 'Não',
-            $e->local_anterior,
-            $e->destino,
+            $e->patrimonio_esta_ativo ? 'Sim' : 'Não',
             $e->observacoes_equipamento,
             $e->created_at?->format('d/m/Y H:i'),
         ])->toArray();

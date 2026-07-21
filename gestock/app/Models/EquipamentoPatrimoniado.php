@@ -14,11 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'tipo_equipamento_id',
     'condicao_operacional_equipamento_id',
     'arquivo_imagem_id',
-    'nome_equipamento',
     'descricao_equipamento',
     'informado_ao_patrimonio',
+    'patrimonio_esta_ativo',
     'local_anterior',
-    'destino',
     'observacoes_equipamento',
 ])]
 class EquipamentoPatrimoniado extends Model
@@ -29,6 +28,7 @@ class EquipamentoPatrimoniado extends Model
     {
         return [
             'informado_ao_patrimonio' => 'boolean',
+            'patrimonio_esta_ativo' => 'boolean',
         ];
     }
 

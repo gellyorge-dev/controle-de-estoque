@@ -38,6 +38,7 @@ class EquipamentoPatrimoniadoController extends Controller
         $unidadeId = $request->query('unidade_id');
         $localizacaoId = $request->query('localizacao_id');
         $status = $request->query('status');
+        $ativo = $request->query('ativo');
         $search = $request->query('search');
 
         $equipamentos = $this->service->filteredPaginate(
@@ -47,6 +48,7 @@ class EquipamentoPatrimoniadoController extends Controller
             unidadeId: $unidadeId ? (int) $unidadeId : null,
             localizacaoId: $localizacaoId ? (int) $localizacaoId : null,
             status: $status,
+            ativo: $ativo,
             search: $search,
         );
 
@@ -59,7 +61,7 @@ class EquipamentoPatrimoniadoController extends Controller
 
         return view('equipamentos-patrimoniados.index', compact(
             'equipamentos', 'marcas', 'tipos', 'condicoes', 'espacos', 'imagens', 'unidades',
-            'marcaId', 'tipoId', 'condicaoId', 'unidadeId', 'localizacaoId', 'status', 'search'
+            'marcaId', 'tipoId', 'condicaoId', 'unidadeId', 'localizacaoId', 'status', 'ativo', 'search'
         ));
     }
 

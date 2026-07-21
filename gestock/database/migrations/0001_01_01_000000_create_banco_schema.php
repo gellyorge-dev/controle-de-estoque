@@ -78,16 +78,14 @@ return new class extends Migration
             $table->foreignId('tipo_equipamento_id')->nullable()->constrained('tipo_eqp');
             $table->foreignId('condicao_operacional_equipamento_id')->constrained('cond_eqp');
             $table->foreignId('arquivo_imagem_id')->nullable()->constrained('arquivo_img');
-            $table->string('nome_equipamento', 150);
             $table->text('descricao_equipamento')->nullable();
             $table->boolean('informado_ao_patrimonio')->default(false);
+            $table->boolean('patrimonio_esta_ativo')->default(true);
             $table->string('local_anterior', 255)->nullable();
-            $table->string('destino', 255)->nullable();
             $table->text('observacoes_equipamento')->nullable();
             $table->timestamps();
 
             $table->index('numero_patrimonio', 'idx_equip_patrim_numero');
-            $table->index('nome_equipamento', 'idx_equip_patrim_nome');
             $table->index('espaco_armazenamento_id', 'idx_equip_patrim_espaco');
         });
 

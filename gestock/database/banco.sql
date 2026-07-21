@@ -199,19 +199,15 @@ CREATE TABLE equipamento_patrimoniado (
     arquivo_imagem_id INT NULL,
 
 
-    nome_equipamento VARCHAR(150) NOT NULL,
-
-
     descricao_equipamento TEXT,
 
 
     informado_ao_patrimonio BOOLEAN NOT NULL DEFAULT FALSE,
 
+    patrimonio_esta_ativo BOOLEAN NOT NULL DEFAULT TRUE,
+
 
     local_anterior VARCHAR(255),
-
-
-    destino VARCHAR(255),
 
 
     observacoes_equipamento TEXT,

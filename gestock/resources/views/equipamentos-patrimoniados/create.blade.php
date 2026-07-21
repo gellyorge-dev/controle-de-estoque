@@ -40,9 +40,6 @@
     </div>
     <div style="padding:20px 24px;">
         <x-formulario.grade>
-            <x-formulario.campo label="Nome do equipamento">
-                <div class="form-valor">{{ $equipamento->nome_equipamento ?? '—' }}</div>
-            </x-formulario.campo>
             <x-formulario.campo label="Nº de patrimônio">
                 <div class="form-valor">#{{ $equipamento->numero_patrimonio ?? '—' }}</div>
             </x-formulario.campo>
@@ -67,17 +64,19 @@
             <x-formulario.campo label="Descrição do equipamento" :span="2">
                 <div class="form-valor">{{ $equipamento->descricao_equipamento ?? '—' }}</div>
             </x-formulario.campo>
+            @if($equipamento->local_anterior)
             <x-formulario.campo label="Local anterior">
-                <div class="form-valor">{{ $equipamento->local_anterior ?? '—' }}</div>
+                <div class="form-valor">{{ $equipamento->local_anterior }}</div>
             </x-formulario.campo>
-            <x-formulario.campo label="Destino">
-                <div class="form-valor">{{ $equipamento->destino ?? '—' }}</div>
-            </x-formulario.campo>
+            @endif
             <x-formulario.campo label="Observações" :span="2">
                 <div class="form-valor">{{ $equipamento->observacoes_equipamento ?? '—' }}</div>
             </x-formulario.campo>
             <x-formulario.campo label="" :span="2">
-                <div class="form-valor">{{ $equipamento->informado_ao_patrimonio ? '✓ Informado ao setor de patrimônio' : '—' }}</div>
+                <div class="form-valor">{{ $equipamento->informado_ao_patrimonio ? '✓ Informado ao setor de patrimônio' : '✗ Não informado' }}</div>
+            </x-formulario.campo>
+            <x-formulario.campo label="" :span="2">
+                <div class="form-valor">{{ $equipamento->patrimonio_esta_ativo ? '✓ Ativo' : '✗ Inativo' }}</div>
             </x-formulario.campo>
         </x-formulario.grade>
     </div>
@@ -109,9 +108,6 @@
         <div style="padding:20px 24px;">
             <input type="file" name="arquivo" id="img-input" accept="image/*" style="display:none" onchange="previewImagem(event)">
             <x-formulario.grade>
-                <x-formulario.campo label="Nome do equipamento" required>
-                    <input type="text" name="nome_equipamento" required value="{{ old('nome_equipamento', $equipamento->nome_equipamento ?? '') }}" placeholder="Ex: Monitor Dell">
-                </x-formulario.campo>
                 <x-formulario.campo label="Nº de patrimônio" required>
                     <input type="number" name="numero_patrimonio" required min="1" value="{{ old('numero_patrimonio', $equipamento->numero_patrimonio ?? '') }}" placeholder="Ex: 30302">
                 </x-formulario.campo>
@@ -164,21 +160,28 @@
                     <textarea name="descricao_equipamento" placeholder="Especificações, observações gerais do item…">{{ old('descricao_equipamento', $equipamento->descricao_equipamento ?? '') }}</textarea>
                 </x-formulario.campo>
 
-                <x-formulario.campo label="Local anterior">
-                    <input type="text" name="local_anterior" value="{{ old('local_anterior', $equipamento->local_anterior ?? '') }}" placeholder="Ex: Depósito">
-                </x-formulario.campo>
-                <x-formulario.campo label="Destino">
-                    <input type="text" name="destino" value="{{ old('destino', $equipamento->destino ?? '') }}" placeholder="Ex: Armário 1">
-                </x-formulario.campo>
-
                 <x-formulario.campo label="Observações" :span="2">
                     <textarea name="observacoes_equipamento" placeholder="Observações adicionais sobre movimentação, estado, etc.">{{ old('observacoes_equipamento', $equipamento->observacoes_equipamento ?? '') }}</textarea>
                 </x-formulario.campo>
+
+                @if(isset($equipamento) && $equipamento->local_anterior)
+                <x-formulario.campo label="Local anterior" :span="2">
+                    <div class="form-valor">{{ $equipamento->local_anterior }}</div>
+                </x-formulario.campo>
+                @endif
 
                 <x-formulario.campo label="" :span="2">
                     <div class="checkbox-field">
                         <input type="checkbox" id="informado_ao_patrimonio" name="informado_ao_patrimonio" value="1" {{ old('informado_ao_patrimonio', $equipamento->informado_ao_patrimonio ?? false) ? 'checked' : '' }}>
                         <label for="informado_ao_patrimonio">Informado ao setor de patrimônio</label>
+                    </div>
+                </x-formulario.campo>
+
+                <x-formulario.campo label="" :span="2">
+                    <div class="checkbox-field">
+                        <input type="hidden" name="patrimonio_esta_ativo" value="0">
+                        <input type="checkbox" id="patrimonio_esta_ativo" name="patrimonio_esta_ativo" value="1" {{ old('patrimonio_esta_ativo', $equipamento->patrimonio_esta_ativo ?? true) ? 'checked' : '' }}>
+                        <label for="patrimonio_esta_ativo">Ativo</label>
                     </div>
                 </x-formulario.campo>
             </x-formulario.grade>

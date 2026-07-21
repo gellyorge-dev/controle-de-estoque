@@ -39,6 +39,7 @@ class EquipamentoPatrimoniadoService
         ?int $unidadeId = null,
         ?int $localizacaoId = null,
         ?string $status = null,
+        ?string $ativo = null,
         ?string $search = null,
         int $perPage = 50,
     ): LengthAwarePaginator {
@@ -65,16 +66,21 @@ class EquipamentoPatrimoniadoService
             $query->where('espaco_armazenamento_id', $localizacaoId);
         }
 
-        if ($status === 'informado') {
+        if ($status === 'sim') {
             $query->where('informado_ao_patrimonio', true);
-        } elseif ($status === 'ativo') {
+        } elseif ($status === 'nao') {
             $query->where('informado_ao_patrimonio', false);
+        }
+
+        if ($ativo === 'sim') {
+            $query->where('patrimonio_esta_ativo', true);
+        } elseif ($ativo === 'nao') {
+            $query->where('patrimonio_esta_ativo', false);
         }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nome_equipamento', 'like', "%{$search}%")
-                    ->orWhere('numero_patrimonio', 'like', "%{$search}%")
+                $q->where('numero_patrimonio', 'like', "%{$search}%")
                     ->orWhere('numero_serie', 'like', "%{$search}%");
             });
         }
@@ -97,6 +103,7 @@ class EquipamentoPatrimoniadoService
         $this->validatePatrimonio($data);
 
         $data['informado_ao_patrimonio'] = $data['informado_ao_patrimonio'] ?? false;
+        $data['patrimonio_esta_ativo'] = $data['patrimonio_esta_ativo'] ?? true;
 
         $record = EquipamentoPatrimoniado::create($data);
 
@@ -113,6 +120,16 @@ class EquipamentoPatrimoniadoService
         $this->validatePatrimonio($data);
 
         $data['informado_ao_patrimonio'] = $data['informado_ao_patrimonio'] ?? false;
+        $data['patrimonio_esta_ativo'] = $data['patrimonio_esta_ativo'] ?? true;
+
+        unset($data['local_anterior'], $data['destino']);
+
+        if (isset($data['espaco_armazenamento_id']) && $data['espaco_armazenamento_id'] != $record->espaco_armazenamento_id) {
+            $espaco = $record->espacoArmazenamento;
+            if ($espaco) {
+                $data['local_anterior'] = $espaco->unidadeOrganizacional->nome.' > '.$espaco->nome;
+            }
+        }
 
         $record->update($data);
 

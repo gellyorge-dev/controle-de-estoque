@@ -21,11 +21,9 @@ class StoreEquipamentoPatrimoniadoRequest extends FormRequest
             'tipo_equipamento_id' => ['nullable', 'exists:tipo_eqp,id'],
             'condicao_operacional_equipamento_id' => ['required', 'exists:cond_eqp,id'],
             'arquivo_imagem_id' => ['nullable', 'exists:arquivo_img,id'],
-            'nome_equipamento' => ['required', 'string', 'max:150'],
             'descricao_equipamento' => ['nullable', 'string'],
             'informado_ao_patrimonio' => ['boolean'],
-            'local_anterior' => ['nullable', 'string', 'max:255'],
-            'destino' => ['nullable', 'string', 'max:255'],
+            'patrimonio_esta_ativo' => ['boolean'],
             'observacoes_equipamento' => ['nullable', 'string'],
             'arquivo' => ['nullable', 'file', 'image'],
         ];

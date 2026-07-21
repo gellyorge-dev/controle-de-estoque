@@ -91,7 +91,7 @@
             <input type="file" name="arquivo" id="img-input" accept="image/*" style="display:none" onchange="previewImagem(event)">
             <x-formulario.grade>
                 <x-formulario.campo label="Nome do item" required :span="2">
-                    <input type="text" name="nome_item" required value="{{ old('nome_item', $item->nome_item ?? '') }}" placeholder="Ex: Monitor Dell">
+                    <input type="text" name="nome_item" required value="{{ old('nome_item', $item->nome_item ?? '') }}" placeholder="Ex: Parafuso">
                 </x-formulario.campo>
 
                 <x-formulario.campo label="Quantidade" required>
@@ -112,7 +112,7 @@
                 </x-formulario.campo>
 
                 <x-formulario.campo label="Descrição do item" :span="2">
-                    <textarea name="descricao_item" placeholder="Ex: Monitor Samsung 24 polegadas">{{ old('descricao_item', $item->descricao_item ?? '') }}</textarea>
+                    <textarea name="descricao_item" placeholder="Ex: Parafuso sextavado M8 30mm">{{ old('descricao_item', $item->descricao_item ?? '') }}</textarea>
                 </x-formulario.campo>
 
                 <x-formulario.campo label="Observações" :span="2">
