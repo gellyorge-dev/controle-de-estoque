@@ -15,7 +15,7 @@ class ImagemUploadController extends Controller
     public function upload(Request $request, string $tipo, int $entidadeId): RedirectResponse
     {
         $request->validate([
-            'arquivo' => ['required', 'file', 'image'],
+            'arquivo' => ['required', 'file', 'mimes:jpg,jpeg,png,bmp,gif,webp,heic,heif'],
         ]);
 
         $this->service->upload($request->file('arquivo'), $tipo, $entidadeId);

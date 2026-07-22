@@ -20,7 +20,7 @@ class StoreUsuarioSistemaRequest extends FormRequest
             'login_usuario' => ['required', 'string', 'max:100', 'unique:usuario_sis,login_usuario'],
             'senha_usuario' => ['required', 'string', 'min:8', 'max:255'],
             'ativo' => ['boolean'],
-            'arquivo' => ['nullable', 'file', 'image'],
+            'arquivo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,bmp,gif,webp,heic,heif'],
         ];
     }
 }

@@ -150,7 +150,7 @@ class UsuarioSistemaController extends Controller
 
         $rules = [
             'senha_usuario' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'arquivo' => ['nullable', 'file', 'image'],
+            'arquivo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,bmp,gif,webp,heic,heif'],
         ];
 
         if ($usuario->perfil_usuario_id === 1) {

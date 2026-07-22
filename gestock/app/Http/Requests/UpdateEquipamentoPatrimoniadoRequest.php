@@ -26,7 +26,7 @@ class UpdateEquipamentoPatrimoniadoRequest extends FormRequest
             'informado_ao_patrimonio' => ['boolean'],
             'patrimonio_esta_ativo' => ['boolean'],
             'observacoes_equipamento' => ['nullable', 'string'],
-            'arquivo' => ['nullable', 'file', 'image'],
+            'arquivo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,bmp,gif,webp,heic,heif'],
         ];
     }
 }

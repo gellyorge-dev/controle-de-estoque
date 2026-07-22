@@ -21,7 +21,7 @@ class UpdateUsuarioSistemaRequest extends FormRequest
             'login_usuario' => ['required', 'string', 'max:100', Rule::unique('usuario_sis', 'login_usuario')->ignore($this->route('id'))],
             'senha_usuario' => ['nullable', 'string', 'min:8', 'max:255'],
             'ativo' => ['boolean'],
-            'arquivo' => ['nullable', 'file', 'image'],
+            'arquivo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,bmp,gif,webp,heic,heif'],
         ];
     }
 }
